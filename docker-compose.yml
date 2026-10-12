@@ -5,7 +5,8 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: crm
-      POSTGRES_PASSWORD: crm_local_password
+      # Read from .env; compose refuses to start if it is missing.
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env (see .env.example)}
       POSTGRES_DB: personal_crm
     ports:
       - "5432:5432"

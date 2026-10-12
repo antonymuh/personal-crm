@@ -26,8 +26,10 @@
 # 1. Установить зависимости
 pnpm install
 
-# 2. Создать .env из примера
+# 2. Создать .env из примера и вписать в него значения
 cp .env.example .env        # Windows PowerShell: Copy-Item .env.example .env
+#    В .env придумайте пароль для POSTGRES_PASSWORD и подставьте его же
+#    в DATABASE_URL (формат строки подсказан в .env.example)
 
 # 3. Поднять PostgreSQL в Docker
 docker compose up -d
