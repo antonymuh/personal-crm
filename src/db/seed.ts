@@ -13,6 +13,7 @@ if (!connectionString) {
 }
 
 const TOTAL = 1000;
+const RESET_FLAG = "--reset";
 
 const maleFirst = [
   "Александр", "Дмитрий", "Максим", "Сергей", "Андрей", "Алексей", "Артём",
@@ -145,8 +146,24 @@ async function main() {
   const client = postgres(connectionString!, { max: 1 });
   const db = drizzle(client, { schema: { contacts, notes } });
 
-  console.log("Clearing existing data…");
-  await db.execute(sql`truncate table ${notes}, ${contacts} restart identity cascade`);
+  // Seeding replaces everything, so never do it to a non-empty database
+  // unless the caller asked for it explicitly.
+  const [{ existing }] = await db.execute<{ existing: number }>(
+    sql`select count(*)::int as existing from ${contacts}`
+  );
+  if (existing > 0 && !process.argv.includes(RESET_FLAG)) {
+    console.error(
+      `Refusing to seed: the database already has ${existing} contacts and seeding deletes all of them.\n` +
+        `Nothing was changed. To wipe the database and seed anyway, run: pnpm db:seed ${RESET_FLAG}`
+    );
+    await client.end();
+    process.exit(1);
+  }
+
+  if (existing > 0) {
+    console.warn(`WARNING: deleting ${existing} existing contacts and all their notes…`);
+    await db.execute(sql`truncate table ${notes}, ${contacts} restart identity cascade`);
+  }
 
   console.log(`Generating ${TOTAL} contacts…`);
   const seedContacts: SeedContact[] = Array.from({ length: TOTAL }, (_, i) =>
