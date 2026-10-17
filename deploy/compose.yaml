@@ -1,0 +1,54 @@
+# Production stack on the server. Lives in /opt/crm/prod next to its .env.
+# Always run through deploy.sh, which uses: docker compose -p prod -f compose.yaml
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+x-app-image: &app-image ghcr.io/antonymuh/personal-crm:${IMAGE_TAG:?IMAGE_TAG is not set}
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: crm
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: personal_crm
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crm -d personal_crm"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    logging: *logging
+
+  # One-off container from the same image: applies migrations and exits.
+  migrate:
+    image: *app-image
+    profiles: ["migrate"]
+    env_file: .env
+    command: ["node", "migrator/migrate.mjs"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+    logging: *logging
+
+  app:
+    image: *app-image
+    restart: unless-stopped
+    env_file: .env
+    # Only reachable from the server itself; nginx proxies the public traffic.
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    logging: *logging
+
+volumes:
+  pgdata:
