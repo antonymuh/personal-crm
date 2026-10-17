@@ -25,6 +25,7 @@ ENV NODE_ENV=production \
     HOSTNAME=0.0.0.0
 COPY --from=builder --chown=node:node /app/.next/standalone ./
 COPY --from=builder --chown=node:node /app/.next/static ./.next/static
+COPY --from=builder --chown=node:node /app/public ./public
 COPY --from=builder /app/drizzle ./drizzle
 COPY --from=builder /migrator/node_modules ./migrator/node_modules
 COPY scripts/migrate.mjs ./migrator/migrate.mjs
