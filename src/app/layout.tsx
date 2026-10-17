@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Users } from "lucide-react";
+
+import { Logo } from "@/components/logo";
 
 import "./globals.css";
 
@@ -15,18 +16,18 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className="min-h-screen antialiased">
-        <header className="border-b">
-          <div className="mx-auto flex h-14 max-w-4xl items-center gap-2 px-4">
+        <header className="border-b-[3px] border-ink bg-card">
+          <div className="mx-auto flex h-16 max-w-4xl items-center gap-2 px-4">
             <Link
               href="/"
-              className="flex items-center gap-2 font-semibold tracking-tight"
+              className="flex items-center gap-3 font-display text-lg font-bold tracking-[-0.01em]"
             >
-              <Users className="h-5 w-5" />
+              <Logo className="h-9 w-9" />
               Личная CRM
             </Link>
           </div>
         </header>
-        <main className="mx-auto max-w-4xl px-4 py-6">{children}</main>
+        <main className="mx-auto max-w-4xl px-4 py-8">{children}</main>
       </body>
     </html>
   );

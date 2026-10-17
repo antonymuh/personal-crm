@@ -32,11 +32,13 @@ export default async function HomePage({
     .orderBy(asc(contacts.name));
 
   return (
-    <div className="space-y-5">
-      <div className="flex items-center justify-between gap-3">
+    <div className="space-y-6">
+      <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Контакты</h1>
-          <p className="text-sm text-muted-foreground">
+          <h1 className="font-display text-3xl font-extrabold tracking-[-0.03em] sm:text-4xl">
+            Контакты
+          </h1>
+          <p className="mt-1 text-muted-foreground">
             {query
               ? `Найдено: ${rows.length}`
               : `Всего контактов: ${rows.length}`}
@@ -48,7 +50,7 @@ export default async function HomePage({
       <ContactSearch initialQuery={query} />
 
       {rows.length === 0 ? (
-        <Card className="p-10 text-center text-muted-foreground">
+        <Card className="p-10 text-center text-lg text-muted-foreground">
           {query
             ? "Никого не нашли. Попробуйте другое имя."
             : "Пока нет контактов. Добавьте первый."}

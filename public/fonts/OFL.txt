@@ -1,0 +1,294 @@
+Some of the files packed into this page (the "__bundler/manifest" data in this file, unpacked by the page’s script when it opens) are font files downloaded unchanged from Google Fonts (fonts.gstatic.com) when the page was saved. Google Fonts serves each family in pieces, one file per range of characters, so these may not be complete families. Each family’s license follows and still applies to its files. If you pass this file on, keep this comment in it.
+
+Caveat
+
+Copyright 2014 The Caveat Project Authors (https://github.com/googlefonts/caveat)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+Golos Text
+
+Copyright 2019 The Golos Text Project Authors (https://github.com/googlefonts/golos-text)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+Unbounded
+
+Copyright 2022 The Unbounded Project Authors (https://github.com/googlefonts/unbounded)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+-->
+"<!DOCTYPE html>\n<html lang=\"ru\"><head>\n<meta charset=\"utf-8\">\n<title>Личная CRM — лендинг<\u002Ftitle>\n<script src=\"124a7efe-6607-4470-a46a-b5f36328f055\"><\u002Fscript>\n<meta name=\"hz:slide-selector\" content=\"[data-canvas-width]\"><meta name=\"hz:canvas-width\" content=\"1440\"><meta name=\"hz:canvas-height\" content=\"3900\"><\u002Fhead>\n<body>\n<x-dc>\n<helmet>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<style>/* cyrillic-ext */\n@font-face {\n  font-family: 'Caveat';\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/caveat/v23/Wnz6HAc5bAfYB2Q7azYYmg8.woff2) format('woff2');\n  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;\n}\n/* cyrillic */\n@font-face {\n  font-family: 'Caveat';\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"171a362b-858c-4eae-aecd-026b601f7a45\") format('woff2');\n  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;\n}\n/* latin-ext */\n@font-face {\n  font-family: 'Caveat';\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/caveat/v23/Wnz6HAc5bAfYB2Q7aDYYmg8.woff2) format('woff2');\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n/* latin */\n@font-face {\n  font-family: 'Caveat';\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"da4a7daf-50fe-4b94-b29f-0d796decdd99\") format('woff2');\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n/* cyrillic-ext */\n@font-face {\n  font-family: 'Caveat';\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/caveat/v23/Wnz6HAc5bAfYB2Q7azYYmg8.woff2) format('woff2');\n  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;\n}\n/* cyrillic */\n@font-face {\n  font-family: 'Caveat';\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(\"171a362b-858c-4eae-aecd-026b601f7a45\") format('woff2');\n  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;\n}\n/* latin-ext */\n@font-face {\n  font-family: 'Caveat';\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/caveat/v23/Wnz6HAc5bAfYB2Q7aDYYmg8.woff2) format('woff2');\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n/* latin */\n@font-face {\n  font-family: 'Caveat';\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(\"da4a7daf-50fe-4b94-b29f-0d796decdd99\") format('woff2');\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n/* cyrillic-ext */\n@font-face {\n  font-family: 'Golos Text';\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/golostext/v7/q5uCsoe9Lv5t7Meb31EcEx58hLxR.woff2) format('woff2');\n  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;\n}\n/* cyrillic */\n@font-face {\n  font-family: 'Golos Text';\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"687755f7-675d-4076-90d0-8856bf4dfa98\") format('woff2');\n  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;\n}\n/* latin-ext */\n@font-face {\n  font-family: 'Golos Text';\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/golostext/v7/q5uCsoe9Lv5t7Meb31EcEx18hLxR.woff2) format('woff2');\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n/* latin */\n@font-face {\n  font-family: 'Golos Text';\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"11a9f762-46f6-42b2-aec2-95a1b137784b\") format('woff2');\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n/* cyrillic-ext */\n@font-face {\n  font-family: 'Golos Text';\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/golostext/v7/q5uCsoe9Lv5t7Meb31EcEx58hLxR.woff2) format('woff2');\n  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;\n}\n/* cyrillic */\n@font-face {\n  font-family: 'Golos Text';\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"687755f7-675d-4076-90d0-8856bf4dfa98\") format('woff2');\n  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;\n}\n/* latin-ext */\n@font-face {\n  font-family: 'Golos Text';\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/golostext/v7/q5uCsoe9Lv5t7Meb31EcEx18hLxR.woff2) format('woff2');\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n/* latin */\n@font-face {\n  font-family: 'Golos Text';\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"11a9f762-46f6-42b2-aec2-95a1b137784b\") format('woff2');\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n/* cyrillic-ext */\n@font-face {\n  font-family: 'Golos Text';\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/golostext/v7/q5uCsoe9Lv5t7Meb31EcEx58hLxR.woff2) format('woff2');\n  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;\n}\n/* cyrillic */\n@font-face {\n  font-family: 'Golos Text';\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"687755f7-675d-4076-90d0-8856bf4dfa98\") format('woff2');\n  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;\n}\n/* latin-ext */\n@font-face {\n  font-family: 'Golos Text';\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/golostext/v7/q5uCsoe9Lv5t7Meb31EcEx18hLxR.woff2) format('woff2');\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n/* latin */\n@font-face {\n  font-family: 'Golos Text';\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"11a9f762-46f6-42b2-aec2-95a1b137784b\") format('woff2');\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n/* cyrillic-ext */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtsZfrxE.woff2) format('woff2');\n  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;\n}\n/* cyrillic */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"328f4836-3203-4cfc-b9ad-38692a7d2be8\") format('woff2');\n  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;\n}\n/* vietnamese */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtMZfrxE.woff2) format('woff2');\n  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;\n}\n/* latin-ext */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtcZfrxE.woff2) format('woff2');\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n/* latin */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"10bee0fd-0e9a-4fa0-b452-7099e14ea154\") format('woff2');\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n/* cyrillic-ext */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtsZfrxE.woff2) format('woff2');\n  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;\n}\n/* cyrillic */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(\"328f4836-3203-4cfc-b9ad-38692a7d2be8\") format('woff2');\n  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;\n}\n/* vietnamese */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtMZfrxE.woff2) format('woff2');\n  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;\n}\n/* latin-ext */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtcZfrxE.woff2) format('woff2');\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n/* latin */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(\"10bee0fd-0e9a-4fa0-b452-7099e14ea154\") format('woff2');\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n/* cyrillic-ext */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 800;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtsZfrxE.woff2) format('woff2');\n  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;\n}\n/* cyrillic */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 800;\n  font-display: swap;\n  src: url(\"328f4836-3203-4cfc-b9ad-38692a7d2be8\") format('woff2');\n  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;\n}\n/* vietnamese */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 800;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtMZfrxE.woff2) format('woff2');\n  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;\n}\n/* latin-ext */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 800;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtcZfrxE.woff2) format('woff2');\n  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n/* latin */\n@font-face {\n  font-family: 'Unbounded';\n  font-style: normal;\n  font-weight: 800;\n  font-display: swap;\n  src: url(\"10bee0fd-0e9a-4fa0-b452-7099e14ea154\") format('woff2');\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n<\u002Fstyle>\n<style>\nbody{margin:0;background:#FFFEF7}\na{color:#1B1B1F}a:hover{color:#2B59FF}\n<\u002Fstyle>\n<\u002Fhelmet>\n<div style=\"font-family: 'Golos Text', system-ui, sans-serif; color: #1B1B1F; background: #FFFEF7; background-image: radial-gradient(#E4E1D3 1.2px, transparent 1.2px); background-size: 22px 22px; overflow: hidden\" data-canvas-width=\"1440\" data-canvas-height=\"3900\" data-document-role=\"page\" data-label=\"Лендинг\">\n\n<!-- Шапка -->\n<header style=\"max-width: 1200px; margin: 0 auto; padding: 28px 24px 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px\">\n  <div style=\"display: flex; align-items: center; gap: 12px\">\n    <svg width=\"44\" height=\"44\" sc-camel-view-box=\"0 0 44 44\" aria-hidden=\"true\"><path d=\"M8 6 C 18 4, 30 5, 38 7 C 40 17, 39 28, 37 38 C 26 40, 15 39, 6 37 C 5 27, 6 16, 8 6 Z\" fill=\"#FFD23F\" stroke=\"#1B1B1F\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><\u002Fpath><circle cx=\"22\" cy=\"18\" r=\"5.5\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"2.5\"><\u002Fcircle><path d=\"M12 33 C 14 26, 30 26, 32 33\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"2.5\" stroke-linecap=\"round\"><\u002Fpath><\u002Fsvg>\n    <span style=\"font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.01em\">Личная CRM<\u002Fspan>\n  <\u002Fdiv>\n  <a href=\"https://app.example.com\" style=\"font-weight: 600; font-size: 16px; text-decoration: none; padding: 11px 22px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center; background: #FFFFFF; border: 2.5px solid #1B1B1F; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; box-shadow: 3px 3px 0 #1B1B1F\">Открыть CRM<\u002Fa>\n<\u002Fheader>\n\n<!-- 1. Первый экран -->\n<section style=\"max-width: 1200px; margin: 0 auto; padding: 72px 24px 96px; display: flex; flex-wrap: wrap; align-items: center; gap: 56px\">\n  <div style=\"flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 28px\">\n    <span style=\"font-family: 'Caveat', cursive; font-weight: 700; font-size: 28px; color: #E2382B; transform: rotate(-3deg); align-self: flex-start\">для людей, а не для сделок<\u002Fspan>\n    <h1 style=\"margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: clamp(44px, 6.4vw, 84px); line-height: 1.02; letter-spacing: -0.03em\">Помни <span style=\"position: relative; display: inline-block; white-space: nowrap\">всех,<svg sc-camel-view-box=\"0 0 300 24\" sc-camel-preserve-aspect-ratio=\"none\" aria-hidden=\"true\" style=\"position: absolute; left: -4%; bottom: -0.2em; width: 108%; height: 0.3em\"><path d=\"M4 16 C 50 6, 96 20, 150 11 S 248 5, 296 13\" fill=\"none\" stroke=\"#FF4A3D\" stroke-width=\"7\" stroke-linecap=\"round\"><\u002Fpath><\u002Fsvg><\u002Fspan> кого знаешь<\u002Fh1>\n    <p style=\"margin: 0; font-size: 21px; line-height: 1.5; max-width: 520px\">Личная CRM для людей, а не для сделок. Кто это, откуда знакомы, о чём договорились — в одной карточке, находится за секунду.<\u002Fp>\n    <div style=\"display: flex; flex-wrap: wrap; align-items: center; gap: 20px\">\n      <a href=\"https://app.example.com\" style=\"font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 19px; text-decoration: none; color: #1B1B1F; padding: 18px 34px; min-height: 56px; box-sizing: border-box; display: inline-flex; align-items: center; gap: 12px; background: {{accent}}; border: 3px solid #1B1B1F; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; box-shadow: 5px 5px 0 #1B1B1F\">Открыть CRM\n        <svg width=\"26\" height=\"18\" sc-camel-view-box=\"0 0 26 18\" aria-hidden=\"true\"><path d=\"M2 9.5 C 9 8.5, 16 9.8, 23 9 M16 2.5 C 19 5, 21 7, 23.5 9 C 21 11, 18.5 13.5, 16 16\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\u002Fpath><\u002Fsvg>\n      <\u002Fa>\n    <\u002Fdiv>\n  <\u002Fdiv>\n\n  <!-- Иллюстрация: окно с карточкой -->\n  <div style=\"flex: 1 1 440px; min-width: 0; position: relative; display: flex; justify-content: center; padding: 20px 0\">\n    <svg sc-camel-view-box=\"0 0 120 120\" aria-hidden=\"true\" style=\"position: absolute; top: -18px; right: 2%; width: 110px; height: 110px; transform: rotate(10deg)\"><path d=\"M60 8 L72 44 L110 46 L80 70 L92 108 L60 86 L28 108 L40 70 L10 46 L48 44 Z\" fill=\"#FF7AC6\" stroke=\"#1B1B1F\" stroke-width=\"3\" stroke-linejoin=\"round\"><\u002Fpath><\u002Fsvg>\n    <svg sc-camel-view-box=\"0 0 140 60\" aria-hidden=\"true\" style=\"position: absolute; bottom: -10px; left: 0; width: 150px; height: 64px\"><path d=\"M6 40 C 20 10, 36 54, 52 26 S 84 6, 96 34 S 124 52, 134 20\" fill=\"none\" stroke=\"#22B573\" stroke-width=\"5\" stroke-linecap=\"round\"><\u002Fpath><\u002Fsvg>\n\n    <div style=\"position: relative; width: 100%; max-width: 480px; background: #FFFFFF; border: 3px solid #1B1B1F; border-radius: 14px 6px 12px 8px; box-shadow: 10px 10px 0 #2B59FF; transform: rotate(1.5deg)\">\n      <div style=\"display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: #2B59FF; border-bottom: 3px solid #1B1B1F; border-radius: 10px 3px 0 0\">\n        <span style=\"font-family: 'Unbounded', sans-serif; font-weight: 500; font-size: 14px; color: #FFFFFF\">контакты.bmp<\u002Fspan>\n        <div style=\"display: flex; gap: 6px\" aria-hidden=\"true\">\n          <span style=\"width: 16px; height: 16px; background: #FFD23F; border: 2px solid #1B1B1F; display: block\"><\u002Fspan>\n          <span style=\"width: 16px; height: 16px; background: #22B573; border: 2px solid #1B1B1F; display: block\"><\u002Fspan>\n          <span style=\"width: 16px; height: 16px; background: #FF4A3D; border: 2px solid #1B1B1F; display: block\"><\u002Fspan>\n        <\u002Fdiv>\n      <\u002Fdiv>\n      <div style=\"padding: 22px; display: flex; flex-direction: column; gap: 18px\">\n        <div style=\"display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 2.5px solid #1B1B1F; border-radius: 15px 255px 15px 225px / 225px 15px 255px 15px; background: #FFFEF7\">\n          <svg width=\"22\" height=\"22\" sc-camel-view-box=\"0 0 22 22\" aria-hidden=\"true\"><circle cx=\"9\" cy=\"9\" r=\"6.5\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"2.4\"><\u002Fcircle><path d=\"M14 14 L20 20\" stroke=\"#1B1B1F\" stroke-width=\"2.6\" stroke-linecap=\"round\"><\u002Fpath><\u002Fsvg>\n          <span style=\"font-size: 17px; font-weight: 500\">Ири<span style=\"display: inline-block; width: 2px; height: 18px; background: #1B1B1F; vertical-align: -3px; margin-left: 1px\"><\u002Fspan><\u002Fspan>\n          <span style=\"margin-left: auto; font-size: 13px; color: #55534C\">1 из 1 000<\u002Fspan>\n        <\u002Fdiv>\n        <div style=\"display: flex; align-items: center; gap: 16px\">\n          <svg width=\"68\" height=\"68\" sc-camel-view-box=\"0 0 68 68\" aria-hidden=\"true\"><path d=\"M34 4 C 52 3, 64 16, 64 33 C 65 51, 51 64, 33 64 C 16 64, 4 52, 4 34 C 3 17, 16 5, 34 4 Z\" fill=\"#3ED3E8\" stroke=\"#1B1B1F\" stroke-width=\"2.8\"><\u002Fpath><circle cx=\"25\" cy=\"29\" r=\"2.8\" fill=\"#1B1B1F\"><\u002Fcircle><circle cx=\"43\" cy=\"29\" r=\"2.8\" fill=\"#1B1B1F\"><\u002Fcircle><path d=\"M23 42 C 29 48, 39 48, 45 41\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"2.8\" stroke-linecap=\"round\"><\u002Fpath><path d=\"M14 18 C 20 8, 44 6, 54 16\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"2.8\" stroke-linecap=\"round\"><\u002Fpath><\u002Fsvg>\n          <div style=\"display: flex; flex-direction: column; gap: 4px\">\n            <span style=\"font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 22px\">Ирина Соколова<\u002Fspan>\n            <span style=\"font-size: 15px; color: #55534C\">добавлена в марте<\u002Fspan>\n          <\u002Fdiv>\n        <\u002Fdiv>\n        <div style=\"display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 10px 14px; font-size: 16px; line-height: 1.4\">\n          <span style=\"color: #55534C\">Телефон<\u002Fspan><span style=\"font-weight: 500\">+7 900 000-00-00<\u002Fspan>\n          <span style=\"color: #55534C\">Почта<\u002Fspan><span style=\"font-weight: 500\">irina@example.com<\u002Fspan>\n          <span style=\"color: #55534C\">Откуда знакомы<\u002Fspan><span style=\"font-weight: 500\">конференция в Казани<\u002Fspan>\n        <\u002Fdiv>\n        <div style=\"position: relative; padding: 14px 16px; background: #FFD23F; border: 2.5px solid #1B1B1F; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; transform: rotate(-1.2deg)\">\n          <span style=\"display: block; font-family: 'Caveat', cursive; font-weight: 700; font-size: 18px; line-height: 1\">договорились:<\u002Fspan>\n          <span style=\"display: block; font-size: 16px; font-weight: 500; margin-top: 6px\">прислать ей презентацию до пятницы<\u002Fspan>\n        <\u002Fdiv>\n      <\u002Fdiv>\n    <\u002Fdiv>\n  <\u002Fdiv>\n<\u002Fsection>\n\n<!-- Палитра-разделитель -->\n<div aria-hidden=\"true\" style=\"display: flex; justify-content: center; gap: 0; padding: 0 24px\">\n  <div style=\"display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); width: 100%; max-width: 420px; border: 3px solid #1B1B1F; height: 26px\">\n    <span style=\"background: #1B1B1F\"><\u002Fspan><span style=\"background: #FF4A3D\"><\u002Fspan><span style=\"background: #FFD23F\"><\u002Fspan><span style=\"background: #22B573\"><\u002Fspan><span style=\"background: #3ED3E8\"><\u002Fspan><span style=\"background: #2B59FF\"><\u002Fspan><span style=\"background: #FF7AC6\"><\u002Fspan>\n  <\u002Fdiv>\n<\u002Fdiv>\n\n<!-- 2. Проблема -->\n<section style=\"max-width: 1200px; margin: 0 auto; padding: 96px 24px; display: flex; flex-direction: column; gap: 48px\">\n  <div style=\"display: flex; flex-direction: column; gap: 10px; align-items: flex-start\">\n    <span style=\"font-family: 'Caveat', cursive; font-weight: 700; font-size: 30px; color: #E2382B; transform: rotate(-2deg)\">знакомо?<\u002Fspan>\n    <h2 style=\"margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: clamp(30px, 3.6vw, 46px); line-height: 1.1; letter-spacing: -0.02em; max-width: 820px\">Нужный человек есть — но найти его уже не получается<\u002Fh2>\n  <\u002Fdiv>\n  <div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px\">\n    <div style=\"background: #FFFFFF; border: 3px solid #1B1B1F; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; padding: 28px; display: flex; flex-direction: column; gap: 18px; transform: rotate(-1deg); box-shadow: 6px 6px 0 #FF7AC6\">\n      <svg width=\"150\" height=\"96\" sc-camel-view-box=\"0 0 150 96\" aria-hidden=\"true\"><rect x=\"10\" y=\"14\" width=\"40\" height=\"70\" rx=\"8\" fill=\"#3ED3E8\" stroke=\"#1B1B1F\" stroke-width=\"2.8\" transform=\"rotate(-8 30 49)\"><\u002Frect><path d=\"M64 14 C 80 10, 100 12, 112 16 C 114 26, 112 34, 110 40 C 98 42, 84 42, 74 40 L 64 48 L 66 38 C 63 30, 62 22, 64 14 Z\" fill=\"#22B573\" stroke=\"#1B1B1F\" stroke-width=\"2.6\" stroke-linejoin=\"round\"><\u002Fpath><path d=\"M86 52 C 104 50, 128 50, 140 54 C 142 62, 141 70, 139 76 L 146 86 L 132 79 C 118 81, 100 80, 88 78 C 85 70, 85 60, 86 52 Z\" fill=\"#2B59FF\" stroke=\"#1B1B1F\" stroke-width=\"2.6\" stroke-linejoin=\"round\"><\u002Fpath><rect x=\"40\" y=\"64\" width=\"44\" height=\"26\" fill=\"#FFD23F\" stroke=\"#1B1B1F\" stroke-width=\"2.6\" transform=\"rotate(12 62 77)\"><\u002Frect><\u002Fsvg>\n      <p style=\"margin: 0; font-size: 19px; line-height: 1.5\">Контакты разбросаны по телефону, WhatsApp, Telegram и визиткам в ящике стола.<\u002Fp>\n    <\u002Fdiv>\n    <div style=\"background: #FFFFFF; border: 3px solid #1B1B1F; border-radius: 15px 255px 15px 225px / 225px 15px 255px 15px; padding: 28px; display: flex; flex-direction: column; gap: 18px; transform: rotate(0.8deg); box-shadow: 6px 6px 0 #FFD23F\">\n      <svg width=\"150\" height=\"96\" sc-camel-view-box=\"0 0 150 96\" aria-hidden=\"true\"><path d=\"M48 8 C 72 6, 88 24, 88 48 C 89 72, 72 90, 48 89 C 24 90, 8 72, 8 48 C 7 24, 24 9, 48 8 Z\" fill=\"#FFFEF7\" stroke=\"#1B1B1F\" stroke-width=\"2.8\"><\u002Fpath><circle cx=\"35\" cy=\"42\" r=\"3.2\" fill=\"#1B1B1F\"><\u002Fcircle><circle cx=\"61\" cy=\"42\" r=\"3.2\" fill=\"#1B1B1F\"><\u002Fcircle><path d=\"M34 66 C 42 62, 54 64, 62 66\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"2.8\" stroke-linecap=\"round\"><\u002Fpath><path d=\"M108 22 C 108 10, 132 8, 132 24 C 132 36, 118 36, 118 48\" fill=\"none\" stroke=\"#FF4A3D\" stroke-width=\"5\" stroke-linecap=\"round\"><\u002Fpath><circle cx=\"118\" cy=\"62\" r=\"3.8\" fill=\"#FF4A3D\"><\u002Fcircle><\u002Fsvg>\n      <p style=\"margin: 0; font-size: 19px; line-height: 1.5\">Через полгода после встречи помнишь лицо, но не помнишь, где познакомились и что обещал.<\u002Fp>\n    <\u002Fdiv>\n    <div style=\"background: #FFFFFF; border: 3px solid #1B1B1F; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; padding: 28px; display: flex; flex-direction: column; gap: 18px; transform: rotate(-0.6deg); box-shadow: 6px 6px 0 #3ED3E8\">\n      <svg width=\"150\" height=\"96\" sc-camel-view-box=\"0 0 150 96\" aria-hidden=\"true\"><path d=\"M44 10 C 64 9, 78 24, 78 42 C 78 60, 63 74, 44 74 C 25 74, 10 60, 10 42 C 10 24, 25 11, 44 10 Z\" fill=\"#FFFFFF\" stroke=\"#1B1B1F\" stroke-width=\"2.8\"><\u002Fpath><path d=\"M68 64 L 94 88\" stroke=\"#1B1B1F\" stroke-width=\"7\" stroke-linecap=\"round\"><\u002Fpath><path d=\"M32 30 L 56 54 M56 30 L 32 54\" stroke=\"#FF4A3D\" stroke-width=\"5\" stroke-linecap=\"round\"><\u002Fpath><path d=\"M104 20 C 116 26, 126 22, 138 28 M104 40 C 114 44, 128 40, 140 46\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-dasharray=\"2 7\"><\u002Fpath><\u002Fsvg>\n      <p style=\"margin: 0; font-size: 19px; line-height: 1.5\">Нужный человек есть — но найти его и вспомнить контекст уже не получается.<\u002Fp>\n    <\u002Fdiv>\n  <\u002Fdiv>\n<\u002Fsection>\n\n<!-- 3. Решение -->\n<section style=\"background: #2B59FF; border-top: 3px solid #1B1B1F; border-bottom: 3px solid #1B1B1F\">\n  <div style=\"max-width: 1200px; margin: 0 auto; padding: 96px 24px; display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start\">\n    <div style=\"flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 14px\">\n      <span style=\"font-family: 'Caveat', cursive; font-weight: 700; font-size: 30px; color: #FFD23F; transform: rotate(-2deg); align-self: flex-start\">решение<\u002Fspan>\n      <h2 style=\"margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: clamp(30px, 3.6vw, 46px); line-height: 1.1; letter-spacing: -0.02em; color: #FFFFFF\">Одно место для всех, кого знаешь лично<\u002Fh2>\n      <svg sc-camel-view-box=\"0 0 220 70\" aria-hidden=\"true\" style=\"width: 200px; height: 64px; margin-top: 12px\"><path d=\"M8 20 C 60 10, 120 50, 190 40\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"3.5\" stroke-linecap=\"round\"><\u002Fpath><path d=\"M176 26 C 184 32, 190 36, 194 40 C 188 44, 182 50, 176 58\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\u002Fpath><\u002Fsvg>\n    <\u002Fdiv>\n    <ol style=\"flex: 1 1 520px; min-width: 0; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px\">\n      <li style=\"display: flex; gap: 20px; align-items: flex-start; background: #FFFFFF; border: 3px solid #1B1B1F; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; padding: 22px 26px; box-shadow: 6px 6px 0 #1B1B1F\">\n        <span style=\"flex: none; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: 20px; background: #FFD23F; border: 2.5px solid #1B1B1F; border-radius: 52% 48% 55% 45% / 46% 54% 46% 54%\">1<\u002Fspan>\n        <p style=\"margin: 0; font-size: 19px; line-height: 1.5; padding-top: 8px\"><strong style=\"font-weight: 600\">Карточка человека<\u002Fstrong> — имя, телефон, почта, откуда знакомы.<\u002Fp>\n      <\u002Fli>\n      <li style=\"display: flex; gap: 20px; align-items: flex-start; background: #FFFFFF; border: 3px solid #1B1B1F; border-radius: 15px 255px 15px 225px / 225px 15px 255px 15px; padding: 22px 26px; box-shadow: 6px 6px 0 #1B1B1F\">\n        <span style=\"flex: none; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: 20px; background: #22B573; border: 2.5px solid #1B1B1F; border-radius: 45% 55% 48% 52% / 54% 46% 54% 46%\">2<\u002Fspan>\n        <p style=\"margin: 0; font-size: 19px; line-height: 1.5; padding-top: 8px\"><strong style=\"font-weight: 600\">Заметки о договорённостях<\u002Fstrong> прямо в карточке.<\u002Fp>\n      <\u002Fli>\n      <li style=\"display: flex; gap: 20px; align-items: flex-start; background: #FFFFFF; border: 3px solid #1B1B1F; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; padding: 22px 26px; box-shadow: 6px 6px 0 #1B1B1F\">\n        <span style=\"flex: none; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: 20px; background: #FF7AC6; border: 2.5px solid #1B1B1F; border-radius: 52% 48% 55% 45% / 46% 54% 46% 54%\">3<\u002Fspan>\n        <p style=\"margin: 0; font-size: 19px; line-height: 1.5; padding-top: 8px\"><strong style=\"font-weight: 600\">Поиск по имени<\u002Fstrong> — нужный контакт за пару секунд, даже среди тысячи.<\u002Fp>\n      <\u002Fli>\n    <\u002Fol>\n  <\u002Fdiv>\n<\u002Fsection>\n\n<!-- 4. Выгоды -->\n<section style=\"max-width: 1200px; margin: 0 auto; padding: 104px 24px; display: flex; flex-direction: column; gap: 48px\">\n  <div style=\"display: flex; flex-direction: column; gap: 10px; align-items: flex-start\">\n    <span style=\"font-family: 'Caveat', cursive; font-weight: 700; font-size: 30px; color: #E2382B; transform: rotate(-2deg)\">что это даёт<\u002Fspan>\n    <h2 style=\"margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: clamp(30px, 3.6vw, 46px); line-height: 1.1; letter-spacing: -0.02em\">Связи не теряются<\u002Fh2>\n  <\u002Fdiv>\n  <div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 28px\">\n    <div style=\"background: #FFD23F; border: 3px solid #1B1B1F; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; padding: 28px 26px; display: flex; flex-direction: column; gap: 14px; transform: rotate(-1.2deg)\">\n      <svg width=\"52\" height=\"52\" sc-camel-view-box=\"0 0 52 52\" aria-hidden=\"true\"><path d=\"M18 30 C 12 36, 8 40, 10 44 C 14 48, 18 44, 24 38 M34 22 C 40 16, 44 12, 42 8 C 38 4, 34 8, 28 14 M20 32 L 32 20\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"3.2\" stroke-linecap=\"round\"><\u002Fpath><\u002Fsvg>\n      <h3 style=\"margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 21px; line-height: 1.2\">Не теряешь связи<\u002Fh3>\n      <p style=\"margin: 0; font-size: 17px; line-height: 1.5\">Каждое знакомство сохраняется с контекстом.<\u002Fp>\n    <\u002Fdiv>\n    <div style=\"background: #22B573; border: 3px solid #1B1B1F; border-radius: 15px 255px 15px 225px / 225px 15px 255px 15px; padding: 28px 26px; display: flex; flex-direction: column; gap: 14px; transform: rotate(0.9deg)\">\n      <svg width=\"52\" height=\"52\" sc-camel-view-box=\"0 0 52 52\" aria-hidden=\"true\"><path d=\"M8 28 C 14 32, 18 38, 22 44 C 28 30, 36 18, 46 8\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"3.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\u002Fpath><\u002Fsvg>\n      <h3 style=\"margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 21px; line-height: 1.2\">Держишь слово<\u002Fh3>\n      <p style=\"margin: 0; font-size: 17px; line-height: 1.5\">Договорённости записаны, а не «где-то в переписке».<\u002Fp>\n    <\u002Fdiv>\n    <div style=\"background: #3ED3E8; border: 3px solid #1B1B1F; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; padding: 28px 26px; display: flex; flex-direction: column; gap: 14px; transform: rotate(-0.7deg)\">\n      <svg width=\"52\" height=\"52\" sc-camel-view-box=\"0 0 52 52\" aria-hidden=\"true\"><path d=\"M26 6 C 38 5, 47 14, 47 26 C 48 38, 38 47, 26 47 C 14 47, 5 38, 5 26 C 5 14, 14 7, 26 6 Z\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"3.2\"><\u002Fpath><path d=\"M26 14 L 26 27 L 35 32\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"3.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\u002Fpath><\u002Fsvg>\n      <h3 style=\"margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 21px; line-height: 1.2\">Готов к встрече за минуту<\u002Fh3>\n      <p style=\"margin: 0; font-size: 17px; line-height: 1.5\">Открыл карточку — вспомнил, кто это и о чём говорили.<\u002Fp>\n    <\u002Fdiv>\n    <div style=\"background: #FF7AC6; border: 3px solid #1B1B1F; border-radius: 15px 255px 15px 225px / 225px 15px 255px 15px; padding: 28px 26px; display: flex; flex-direction: column; gap: 14px; transform: rotate(1.1deg)\">\n      <svg width=\"52\" height=\"52\" sc-camel-view-box=\"0 0 52 52\" aria-hidden=\"true\"><rect x=\"5\" y=\"10\" width=\"28\" height=\"20\" rx=\"3\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"3.2\"><\u002Frect><path d=\"M12 38 L 26 38\" stroke=\"#1B1B1F\" stroke-width=\"3.2\" stroke-linecap=\"round\"><\u002Fpath><rect x=\"32\" y=\"20\" width=\"15\" height=\"26\" rx=\"4\" fill=\"#FF7AC6\" stroke=\"#1B1B1F\" stroke-width=\"3.2\"><\u002Frect><\u002Fsvg>\n      <h3 style=\"margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 21px; line-height: 1.2\">Данные твои<\u002Fh3>\n      <p style=\"margin: 0; font-size: 17px; line-height: 1.5\">Хранятся на сервере, открываются с телефона и компьютера.<\u002Fp>\n    <\u002Fdiv>\n  <\u002Fdiv>\n<\u002Fsection>\n\n<!-- 5. Призыв к действию -->\n<section style=\"max-width: 1200px; margin: 0 auto; padding: 0 24px 112px\">\n  <div style=\"position: relative; background: #FFFFFF; border: 3.5px solid #1B1B1F; border-radius: 30px 8px 26px 10px / 10px 26px 8px 30px; box-shadow: 12px 12px 0 #FF4A3D; padding: clamp(40px, 6vw, 80px) 28px; display: flex; flex-direction: column; align-items: center; gap: 32px; text-align: center\">\n    <div aria-hidden=\"true\" style=\"display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 560px\">\n      <sc-for list=\"{{dots}}\" as=\"d\" hint-placeholder-count=\"10\">\n        <svg width=\"40\" height=\"40\" sc-camel-view-box=\"0 0 40 40\"><path d=\"M20 3 C 30 2, 37 10, 37 20 C 38 30, 30 37, 20 37 C 10 37, 3 30, 3 20 C 2 10, 10 4, 20 3 Z\" fill=\"{{d.fill}}\" stroke=\"#1B1B1F\" stroke-width=\"2.6\"><\u002Fpath><\u002Fsvg>\n      <\u002Fsc-for>\n    <\u002Fdiv>\n    <h2 style=\"margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: clamp(32px, 4.6vw, 60px); line-height: 1.08; letter-spacing: -0.025em; max-width: 860px\">Начни с первых <span style=\"position: relative; display: inline-block; white-space: nowrap\">десяти<svg sc-camel-view-box=\"0 0 300 80\" sc-camel-preserve-aspect-ratio=\"none\" aria-hidden=\"true\" style=\"position: absolute; left: -8%; top: -12%; width: 116%; height: 124%\"><path d=\"M150 6 C 240 4, 296 22, 294 42 C 292 64, 220 76, 140 74 C 60 72, 6 62, 8 40 C 10 18, 80 6, 172 10\" fill=\"none\" stroke=\"#FF4A3D\" stroke-width=\"5\" stroke-linecap=\"round\"><\u002Fpath><\u002Fsvg><\u002Fspan> контактов<\u002Fh2>\n    <a href=\"https://app.example.com\" style=\"font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 20px; text-decoration: none; color: #1B1B1F; padding: 20px 40px; min-height: 60px; box-sizing: border-box; display: inline-flex; align-items: center; gap: 12px; background: {{accent}}; border: 3px solid #1B1B1F; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; box-shadow: 5px 5px 0 #1B1B1F\">Открыть CRM\n      <svg width=\"26\" height=\"18\" sc-camel-view-box=\"0 0 26 18\" aria-hidden=\"true\"><path d=\"M2 9.5 C 9 8.5, 16 9.8, 23 9 M16 2.5 C 19 5, 21 7, 23.5 9 C 21 11, 18.5 13.5, 16 16\" fill=\"none\" stroke=\"#1B1B1F\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\u002Fpath><\u002Fsvg>\n    <\u002Fa>\n  <\u002Fdiv>\n<\u002Fsection>\n\n<footer style=\"border-top: 3px solid #1B1B1F; background: #FFFFFF\">\n  <div style=\"max-width: 1200px; margin: 0 auto; padding: 28px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px\">\n    <span style=\"font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 16px\">Личная CRM<\u002Fspan>\n    <a href=\"https://app.example.com\" style=\"font-size: 16px; font-weight: 500\">app.example.com<\u002Fa>\n  <\u002Fdiv>\n<\u002Ffooter>\n\n<\u002Fdiv>\n<\u002Fx-dc>\n<script type=\"text/x-dc\" data-dc-script=\"\" data-props=\"{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#FFD23F&quot;,&quot;options&quot;:[&quot;#FFD23F&quot;,&quot;#22B573&quot;,&quot;#3ED3E8&quot;,&quot;#FF7AC6&quot;]},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:3900}}\">\nclass Component extends DCLogic {\n  renderVals() {\n    var accent = this.props.accent ?? '#FFD23F';\n    var dots = [];\n    for (var i = 0; i < 10; i++) {\n      dots.push({ fill: i === 0 ? accent : '#FFFFFF' });\n    }\n    return { accent: accent, dots: dots };\n  }\n}\n<\u002Fscript>\n\n\n<\u002Fbody><\u002Fhtml>"
+  </script>
+</body>
