@@ -7,6 +7,7 @@ import { db } from "@/db";
 import { contacts, notes } from "@/db/schema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EditContactDialog } from "@/components/edit-contact-dialog";
+import { DeleteContactDialog } from "@/components/delete-contact-dialog";
 import { AddNoteForm } from "@/components/add-note-form";
 import { formatDateTime } from "@/lib/format";
 
@@ -56,7 +57,10 @@ export default async function ContactPage({
         </div>
         <CardHeader className="flex-row items-start justify-between gap-4 space-y-0">
           <CardTitle className="text-2xl sm:text-3xl">{contact.name}</CardTitle>
-          <EditContactDialog contact={contact} />
+          <div className="flex shrink-0 flex-wrap justify-end gap-2">
+            <EditContactDialog contact={contact} />
+            <DeleteContactDialog contact={contact} />
+          </div>
         </CardHeader>
         <CardContent className="grid gap-2.5">
           {contact.howWeMet && (

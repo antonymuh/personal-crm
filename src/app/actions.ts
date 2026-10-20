@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
@@ -68,6 +69,22 @@ export async function updateContact(
   revalidatePath("/");
   revalidatePath(`/contacts/${id}`);
   return { ok: true, contactId: id };
+}
+
+// Permanently removes the contact; its notes go with it (ON DELETE CASCADE).
+export async function deleteContact(
+  _prev: ActionResult | null,
+  formData: FormData
+): Promise<ActionResult> {
+  const id = Number(formData.get("id"));
+  if (!Number.isInteger(id)) {
+    return { ok: false, error: "Контакт не найден" };
+  }
+
+  await db.delete(contacts).where(eq(contacts.id, id));
+
+  revalidatePath("/");
+  redirect("/");
 }
 
 export async function addNote(
