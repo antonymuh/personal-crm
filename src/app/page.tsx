@@ -18,6 +18,8 @@ export default async function HomePage({
   const query = q?.trim() ?? "";
 
   // Note counts come from the same query, so the database is hit once.
+  // The outer id is qualified by hand: in a single-table select Drizzle drops
+  // table names, and a bare "id" inside the subquery would mean notes.id.
   const rows = await db
     .select({
       id: contacts.id,
@@ -25,7 +27,7 @@ export default async function HomePage({
       howWeMet: contacts.howWeMet,
       phone: contacts.phone,
       email: contacts.email,
-      noteCount: sql<number>`(select count(*)::int from ${notes} where ${notes.contactId} = ${contacts.id})`,
+      noteCount: sql<number>`(select count(*)::int from ${notes} where ${notes.contactId} = ${contacts}.${sql.identifier(contacts.id.name)})`,
     })
     .from(contacts)
     .where(query ? ilike(contacts.name, `%${query}%`) : undefined)
