@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Mail, Phone, StickyNote } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
+import { DueBadge } from "@/components/due-badge";
 
 export type ContactListItem = {
   id: number;
@@ -12,6 +13,7 @@ export type ContactListItem = {
   phone: string | null;
   email: string | null;
   noteCount: number;
+  isDue: boolean;
 };
 
 // Rendered as a client component on purpose: the server then sends plain row
@@ -61,12 +63,15 @@ export function ContactList({ items }: { items: ContactListItem[] }) {
                     )}
                   </div>
                 </div>
-                {c.noteCount > 0 && (
-                  <span className="inline-flex shrink-0 items-center gap-1 rounded-blob border-2 border-ink bg-secondary px-2.5 py-1 text-xs font-semibold text-secondary-foreground">
-                    <StickyNote className="h-3.5 w-3.5" />
-                    {c.noteCount}
-                  </span>
-                )}
+                <div className="flex shrink-0 flex-col items-end gap-1.5">
+                  {c.isDue && <DueBadge />}
+                  {c.noteCount > 0 && (
+                    <span className="inline-flex shrink-0 items-center gap-1 rounded-blob border-2 border-ink bg-secondary px-2.5 py-1 text-xs font-semibold text-secondary-foreground">
+                      <StickyNote className="h-3.5 w-3.5" />
+                      {c.noteCount}
+                    </span>
+                  )}
+                </div>
               </div>
             </Card>
           </Link>

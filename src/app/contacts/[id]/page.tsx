@@ -1,15 +1,19 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { desc, eq } from "drizzle-orm";
-import { ArrowLeft, Mail, MapPin, Phone } from "lucide-react";
+import { desc, eq, getTableColumns } from "drizzle-orm";
+import { ArrowLeft, CalendarClock, Mail, MapPin, Phone } from "lucide-react";
 
 import { db } from "@/db";
 import { contacts, notes } from "@/db/schema";
+import { dueAt, isDue } from "@/db/keep-in-touch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EditContactDialog } from "@/components/edit-contact-dialog";
 import { DeleteContactDialog } from "@/components/delete-contact-dialog";
 import { AddNoteForm } from "@/components/add-note-form";
-import { formatDateTime } from "@/lib/format";
+import { MarkContactedButton } from "@/components/mark-contacted-button";
+import { DueBadge } from "@/components/due-badge";
+import { formatDate, formatDateTime } from "@/lib/format";
+import { frequencyLabel } from "@/lib/contact-frequency";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +27,7 @@ export default async function ContactPage({
   if (!Number.isInteger(contactId)) notFound();
 
   const [contact] = await db
-    .select()
+    .select({ ...getTableColumns(contacts), dueAt, isDue })
     .from(contacts)
     .where(eq(contacts.id, contactId))
     .limit(1);
@@ -92,6 +96,50 @@ export default async function ContactPage({
           )}
         </CardContent>
       </Card>
+
+      <section className="space-y-4">
+        <h2 className="font-display text-2xl font-bold tracking-[-0.02em]">Связь</h2>
+
+        <Card className="rounded-sketch p-4 shadow-pop-pink sm:px-5">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="grid gap-1.5">
+              <div className="flex items-center gap-2">
+                <CalendarClock className="h-4 w-4 shrink-0 text-muted-foreground" />
+                <span>
+                  Частота:{" "}
+                  <span className="font-semibold">
+                    {contact.contactFrequency
+                      ? frequencyLabel(contact.contactFrequency)
+                      : "не задана"}
+                  </span>
+                </span>
+              </div>
+              <p>
+                Последнее общение:{" "}
+                <span className="font-semibold">
+                  {contact.lastContactedAt
+                    ? formatDate(contact.lastContactedAt)
+                    : "ещё не отмечали"}
+                </span>
+              </p>
+              {contact.contactFrequency && (
+                <p>
+                  Следующий раз:{" "}
+                  <span className="font-semibold">
+                    {contact.dueAt ? formatDate(contact.dueAt) : "сейчас"}
+                  </span>
+                </p>
+              )}
+              {contact.isDue && (
+                <div className="mt-1">
+                  <DueBadge />
+                </div>
+              )}
+            </div>
+            <MarkContactedButton contactId={contact.id} />
+          </div>
+        </Card>
+      </section>
 
       <section className="space-y-4">
         <h2 className="font-display text-2xl font-bold tracking-[-0.02em]">Заметки</h2>
