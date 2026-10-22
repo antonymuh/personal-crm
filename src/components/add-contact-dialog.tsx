@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import { UserPlus } from "lucide-react";
 
 import { createContact, type ActionResult } from "@/app/actions";
@@ -21,11 +21,12 @@ export function AddContactDialog() {
   const [state, formAction, pending] = useActionState<
     ActionResult | null,
     FormData
-  >(createContact, null);
-
-  useEffect(() => {
-    if (state?.ok) setOpen(false);
-  }, [state]);
+  >(async (prev, formData) => {
+    const result = await createContact(prev, formData);
+    // Close the dialog right after a successful save.
+    if (result.ok) setOpen(false);
+    return result;
+  }, null);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

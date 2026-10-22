@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import { Pencil } from "lucide-react";
 
 import { updateContact, type ActionResult } from "@/app/actions";
@@ -29,11 +29,12 @@ export function EditContactDialog({ contact }: { contact: Contact }) {
   const [state, formAction, pending] = useActionState<
     ActionResult | null,
     FormData
-  >(updateContact, null);
-
-  useEffect(() => {
-    if (state?.ok) setOpen(false);
-  }, [state]);
+  >(async (prev, formData) => {
+    const result = await updateContact(prev, formData);
+    // Close the dialog right after a successful save.
+    if (result.ok) setOpen(false);
+    return result;
+  }, null);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
