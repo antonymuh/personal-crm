@@ -4,6 +4,7 @@ import postgres from "postgres";
 import { sql } from "drizzle-orm";
 
 import { contacts, notes } from "./schema";
+import { CONTACT_FREQUENCIES, type ContactFrequency } from "../lib/contact-frequency";
 
 config({ path: ".env" });
 
@@ -116,6 +117,19 @@ type SeedContact = {
   howWeMet: string | null;
   phone: string | null;
   email: string | null;
+  contactFrequency: ContactFrequency | null;
+  lastContactedAt: Date | null;
+};
+
+const DAY = 1000 * 60 * 60 * 24;
+// Approximate period length, only to spread seeded dates around the due date.
+const frequencyDays: Record<ContactFrequency, number> = {
+  week: 7,
+  two_weeks: 14,
+  month: 30,
+  quarter: 91,
+  half_year: 182,
+  year: 365,
 };
 
 function buildContact(index: number): SeedContact {
@@ -139,7 +153,17 @@ function buildContact(index: number): SeedContact {
       ? `${translit(first)}.${translit(last)}${index}@${pick(emailDomains)}`
       : null;
 
-  return { name, howWeMet, phone, email };
+  // About a third of contacts get a frequency. The last contact falls within
+  // two periods of it, so roughly half of them are due and half are not yet.
+  const contactFrequency =
+    Math.random() < 0.33 ? pick(CONTACT_FREQUENCIES.map((f) => f.value)) : null;
+  const periodDays = contactFrequency ? frequencyDays[contactFrequency] : 365;
+  const lastContactedAt =
+    Math.random() < 0.8
+      ? new Date(Date.now() - Math.floor(Math.random() * 2 * periodDays * DAY))
+      : null;
+
+  return { name, howWeMet, phone, email, contactFrequency, lastContactedAt };
 }
 
 async function main() {

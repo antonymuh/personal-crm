@@ -5,7 +5,9 @@ import {
   text,
   timestamp,
   index,
+  check,
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 
 // People I know personally. One row per contact.
 export const contacts = pgTable(
@@ -17,6 +19,11 @@ export const contacts = pgTable(
     howWeMet: text("how_we_met"),
     phone: text("phone"),
     email: text("email"),
+    // How often I want to be in touch; NULL means "not set".
+    // Allowed values live in src/db/keep-in-touch.ts.
+    contactFrequency: text("contact_frequency"),
+    // When I last talked to this person; NULL means "never marked".
+    lastContactedAt: timestamp("last_contacted_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
@@ -24,7 +31,13 @@ export const contacts = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (table) => [index("contacts_name_idx").on(table.name)]
+  (table) => [
+    index("contacts_name_idx").on(table.name),
+    check(
+      "contacts_contact_frequency_check",
+      sql`${table.contactFrequency} in ('week', 'two_weeks', 'month', 'quarter', 'half_year', 'year')`
+    ),
+  ]
 );
 
 // Timeline of notes attached to a contact (e.g. what we agreed on after a call).

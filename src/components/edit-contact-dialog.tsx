@@ -21,6 +21,7 @@ type Contact = {
   howWeMet: string | null;
   phone: string | null;
   email: string | null;
+  contactFrequency: string | null;
 };
 
 export function EditContactDialog({ contact }: { contact: Contact }) {
