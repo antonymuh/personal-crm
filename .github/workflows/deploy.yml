@@ -14,7 +14,11 @@ env:
   IMAGE: ghcr.io/antonymuh/personal-crm
 
 jobs:
+  audit:
+    uses: ./.github/workflows/audit.yml
+
   build:
+    needs: audit
     runs-on: ubuntu-latest
     permissions:
       contents: read
