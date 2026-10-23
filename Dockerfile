@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM node:24-alpine AS base
+FROM node:25-alpine AS base
 RUN npm install -g pnpm@12.14.0
 WORKDIR /app
 
@@ -17,7 +17,7 @@ RUN pnpm build
 RUN mkdir -p /migrator/node_modules \
   && cp -rL node_modules/drizzle-orm node_modules/postgres /migrator/node_modules/
 
-FROM node:24-alpine AS runner
+FROM node:25-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
