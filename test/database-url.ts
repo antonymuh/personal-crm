@@ -1,10 +1,15 @@
 export const TEST_DATABASE_NAME = "personal_crm_test";
+// Separate from the Vitest one, so both suites can run at the same time.
+export const E2E_DATABASE_NAME = "personal_crm_e2e_test";
 
 // Same server and credentials as the app, but a separate database, so tests
 // never touch real contacts.
-export function toTestDatabaseUrl(databaseUrl: string): string {
+export function toTestDatabaseUrl(
+  databaseUrl: string,
+  name: string = TEST_DATABASE_NAME
+): string {
   const url = new URL(databaseUrl);
-  url.pathname = `/${TEST_DATABASE_NAME}`;
+  url.pathname = `/${name}`;
   return url.toString();
 }
 

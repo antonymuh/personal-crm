@@ -1,5 +1,5 @@
 import { fileURLToPath } from "node:url";
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 
 const fromRoot = (path: string) =>
   fileURLToPath(new URL(path, import.meta.url));
@@ -17,6 +17,8 @@ export default defineConfig({
   },
   test: {
     environment: "node",
+    // Browser tests live in e2e/ and run with Playwright (pnpm test:e2e).
+    exclude: [...configDefaults.exclude, "e2e/**"],
     globalSetup: ["./test/global-setup.ts"],
     setupFiles: ["./test/setup.ts"],
     // Database tests share one test database, so files run one at a time.
