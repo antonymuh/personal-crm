@@ -5,16 +5,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
+import { useChosenGroup } from "@/components/chosen-group";
 
-export function ContactSearch({
-  initialQuery,
-  groupId,
-}: {
-  initialQuery: string;
-  // The chosen group filter, kept in the address while typing.
-  groupId: number | null;
-}) {
+export function ContactSearch({ initialQuery }: { initialQuery: string }) {
   const [value, setValue] = useState(initialQuery);
+  // The chosen group filter, kept in the address while typing.
+  const chosenGroup = useChosenGroup();
   const router = useRouter();
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
@@ -32,6 +28,7 @@ export function ContactSearch({
     timeout.current = setTimeout(() => {
       const params = new URLSearchParams();
       if (next.trim()) params.set("q", next.trim());
+      const groupId = chosenGroup.current();
       if (groupId !== null) params.set("group", String(groupId));
       const qs = params.toString();
       startTransition(() => {

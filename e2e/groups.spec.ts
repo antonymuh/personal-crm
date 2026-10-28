@@ -134,6 +134,37 @@ test("filter by group, combined with search and kept in the address", async ({
   await expect(page.getByText("Всего контактов: 3")).toBeVisible();
 });
 
+test("a group chosen right before typing stays chosen", async ({ page }) => {
+  await addFamilyAndTennis(page);
+  await filter(page).getByRole("link", { name: "Теннис" }).click();
+  await expect(page.getByText("В группе: 2")).toBeVisible();
+
+  const family = filter(page).getByRole("link", { name: "Семья" });
+  const familyHref = (await family.getAttribute("href")) ?? "";
+  const familyId = new URL(familyHref, page.url()).searchParams.get("group");
+
+  // The server answers the switch to «Семья» a second later, so the search
+  // starts while that switch is still on its way.
+  await page.route(
+    (url) =>
+      url.searchParams.get("group") === familyId && !url.searchParams.has("q"),
+    async (route) => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await route.continue();
+    }
+  );
+
+  await family.click();
+  await page.getByLabel("Поиск по имени").fill("Ан");
+
+  await expect(page).toHaveURL(new RegExp(`q=[^&]+&group=${familyId}$`));
+  await expect(family).toHaveAttribute("aria-current", "page");
+  await expect(page.getByText("Найдено: 1")).toBeVisible();
+  await expect(contactRow(page, "Анна")).toBeVisible();
+
+  await page.unrouteAll({ behavior: "wait" });
+});
+
 test("an empty group shows a message", async ({ page }) => {
   await page.goto("/");
   await addContact(page, "Анна", { newGroup: "Аналитики" });
