@@ -75,7 +75,9 @@ export async function renameGroup(
       .set({ name: parsed.name })
       .where(eq(groups.id, id))
       .returning({ id: groups.id });
-    return updated.length > 0 ? { ok: true } : { ok: false, error: GROUP_NOT_FOUND };
+    return updated.length > 0
+      ? { ok: true }
+      : { ok: false, error: GROUP_NOT_FOUND };
   } catch (err) {
     if (isUniqueViolation(err)) return { ok: false, error: GROUP_NAME_TAKEN };
     throw err;

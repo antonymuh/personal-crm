@@ -14,10 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  ContactFields,
-  type GroupOption,
-} from "@/components/contact-fields";
+import { ContactFields, type GroupOption } from "@/components/contact-fields";
 
 export function AddContactDialog({ groups }: { groups: GroupOption[] }) {
   const [open, setOpen] = useState(false);

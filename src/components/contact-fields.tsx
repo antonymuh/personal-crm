@@ -87,7 +87,9 @@ export function ContactFields({
         </select>
       </div>
       <fieldset className="grid gap-2">
-        <legend className="mb-2 text-sm font-semibold leading-none">Группы</legend>
+        <legend className="mb-2 text-sm font-semibold leading-none">
+          Группы
+        </legend>
         {groups.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {groups.map((g) => (

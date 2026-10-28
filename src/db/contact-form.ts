@@ -14,8 +14,7 @@ import {
 // checked groups and an optional new group, all in one transaction.
 
 export type ContactFormResult =
-  | { ok: true; contactId: number }
-  | { ok: false; error: string };
+  { ok: true; contactId: number } | { ok: false; error: string };
 
 const NAME_REQUIRED = "Укажите имя контакта";
 const UNKNOWN_FREQUENCY = "Неизвестная частота общения";

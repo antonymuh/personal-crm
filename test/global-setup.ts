@@ -4,7 +4,11 @@ import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
 import type { TestProject } from "vitest/node";
 
-import { assertTestDatabase, databaseName, toTestDatabaseUrl } from "./database-url";
+import {
+  assertTestDatabase,
+  databaseName,
+  toTestDatabaseUrl,
+} from "./database-url";
 
 declare module "vitest" {
   export interface ProvidedContext {
@@ -30,7 +34,8 @@ export default async function setup(project: TestProject) {
 
   const admin = postgres(appUrl, { max: 1, onnotice: () => {} });
   try {
-    const existing = await admin`select 1 from pg_database where datname = ${testName}`;
+    const existing =
+      await admin`select 1 from pg_database where datname = ${testName}`;
     if (existing.length === 0) {
       await admin.unsafe(`create database "${testName}"`);
     }

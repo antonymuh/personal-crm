@@ -37,26 +37,28 @@ export async function listContacts(
   { query, groupId }: { query: string; groupId: number | null },
   executor: Executor = db
 ): Promise<ContactListRow[]> {
-  return executor
-    .select({
-      id: contacts.id,
-      name: contacts.name,
-      howWeMet: contacts.howWeMet,
-      phone: contacts.phone,
-      email: contacts.email,
-      noteCount,
-      isDue,
-      groupNames,
-    })
-    .from(contacts)
-    .where(
-      and(
-        query ? ilike(contacts.name, `%${query}%`) : undefined,
-        groupId !== null ? inGroup(groupId) : undefined
+  return (
+    executor
+      .select({
+        id: contacts.id,
+        name: contacts.name,
+        howWeMet: contacts.howWeMet,
+        phone: contacts.phone,
+        email: contacts.email,
+        noteCount,
+        isDue,
+        groupNames,
+      })
+      .from(contacts)
+      .where(
+        and(
+          query ? ilike(contacts.name, `%${query}%`) : undefined,
+          groupId !== null ? inGroup(groupId) : undefined
+        )
       )
-    )
-    // Contacts it is time to get in touch with come first.
-    .orderBy(...keepInTouchOrder);
+      // Contacts it is time to get in touch with come first.
+      .orderBy(...keepInTouchOrder)
+  );
 }
 
 // The contact's groups, alphabetically: labels on the contact page and the

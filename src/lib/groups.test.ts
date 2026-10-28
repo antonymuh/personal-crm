@@ -19,7 +19,10 @@ describe("parseGroupName", () => {
   });
 
   it("rejects a missing name", () => {
-    expect(parseGroupName(null)).toEqual({ ok: false, error: GROUP_NAME_REQUIRED });
+    expect(parseGroupName(null)).toEqual({
+      ok: false,
+      error: GROUP_NAME_REQUIRED,
+    });
   });
 
   it("trims spaces around the name", () => {
@@ -45,7 +48,9 @@ describe("parseGroupIds", () => {
   });
 
   it("drops junk and repeats", () => {
-    expect(parseGroupIds(["2", "abc", "", "-1", "0", "1.5", "2", " 4 "])).toEqual([2]);
+    expect(
+      parseGroupIds(["2", "abc", "", "-1", "0", "1.5", "2", " 4 "])
+    ).toEqual([2]);
   });
 });
 

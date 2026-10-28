@@ -62,7 +62,10 @@ describe("listContacts", () => {
     await db.update(contacts).set({ contactFrequency: "week" });
     // Everyone was just contacted except Яна, who never was.
     await db.update(contacts).set({ lastContactedAt: new Date() });
-    await db.update(contacts).set({ lastContactedAt: null }).where(eq(contacts.id, yana.id));
+    await db
+      .update(contacts)
+      .set({ lastContactedAt: null })
+      .where(eq(contacts.id, yana.id));
     await setContactGroups(yana.id, [family.id]);
 
     const rows = await listContacts({ query: "", groupId: family.id });
@@ -88,7 +91,11 @@ describe("listContacts", () => {
     ]);
     const rows = await listContacts({ query: "Анна", groupId: null });
     expect(rows).toEqual([
-      expect.objectContaining({ name: "Анна", noteCount: 2, groupNames: ["Семья"] }),
+      expect.objectContaining({
+        name: "Анна",
+        noteCount: 2,
+        groupNames: ["Семья"],
+      }),
     ]);
   });
 });

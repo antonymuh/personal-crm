@@ -13,10 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  ContactFields,
-  type GroupOption,
-} from "@/components/contact-fields";
+import { ContactFields, type GroupOption } from "@/components/contact-fields";
 
 type Contact = {
   id: number;

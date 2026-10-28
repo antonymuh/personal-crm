@@ -1,6 +1,9 @@
 import "server-only";
 
-import { drizzle, type PostgresJsQueryResultHKT } from "drizzle-orm/postgres-js";
+import {
+  drizzle,
+  type PostgresJsQueryResultHKT,
+} from "drizzle-orm/postgres-js";
 import type { PgDatabase } from "drizzle-orm/pg-core";
 import postgres from "postgres";
 

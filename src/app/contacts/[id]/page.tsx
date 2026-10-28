@@ -88,7 +88,10 @@ export default async function ContactPage({
           {contact.phone && (
             <div className="flex items-center gap-2">
               <Phone className="h-4 w-4 shrink-0 text-muted-foreground" />
-              <a href={`tel:${contact.phone}`} className="font-medium hover:text-blue hover:underline">
+              <a
+                href={`tel:${contact.phone}`}
+                className="font-medium hover:text-blue hover:underline"
+              >
                 {contact.phone}
               </a>
             </div>
@@ -96,7 +99,10 @@ export default async function ContactPage({
           {contact.email && (
             <div className="flex items-center gap-2">
               <Mail className="h-4 w-4 shrink-0 text-muted-foreground" />
-              <a href={`mailto:${contact.email}`} className="font-medium hover:text-blue hover:underline">
+              <a
+                href={`mailto:${contact.email}`}
+                className="font-medium hover:text-blue hover:underline"
+              >
                 {contact.email}
               </a>
             </div>
@@ -110,7 +116,9 @@ export default async function ContactPage({
       </Card>
 
       <section className="space-y-4">
-        <h2 className="font-display text-2xl font-bold tracking-[-0.02em]">Связь</h2>
+        <h2 className="font-display text-2xl font-bold tracking-[-0.02em]">
+          Связь
+        </h2>
 
         <Card className="rounded-sketch p-4 shadow-pop-pink sm:px-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
@@ -154,7 +162,9 @@ export default async function ContactPage({
       </section>
 
       <section className="space-y-4">
-        <h2 className="font-display text-2xl font-bold tracking-[-0.02em]">Заметки</h2>
+        <h2 className="font-display text-2xl font-bold tracking-[-0.02em]">
+          Заметки
+        </h2>
 
         <Card className="rounded-sketch-alt p-4 shadow-pop-cyan">
           <AddNoteForm contactId={contact.id} />
@@ -178,7 +188,9 @@ export default async function ContactPage({
                   <p className="font-hand text-lg leading-none font-bold">
                     {formatDateTime(note.createdAt)}
                   </p>
-                  <p className="mt-2 whitespace-pre-wrap font-medium">{note.body}</p>
+                  <p className="mt-2 whitespace-pre-wrap font-medium">
+                    {note.body}
+                  </p>
                 </div>
               </li>
             ))}

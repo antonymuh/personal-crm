@@ -38,8 +38,8 @@ export function DeleteGroupDialog({
         <DialogHeader>
           <DialogTitle>Удалить группу?</DialogTitle>
           <DialogDescription>
-            Группа «{group.name}» удалится. Контакты останутся, просто перестанут
-            в ней состоять.
+            Группа «{group.name}» удалится. Контакты останутся, просто
+            перестанут в ней состоять.
           </DialogDescription>
         </DialogHeader>
         <form action={formAction} className="grid gap-4">

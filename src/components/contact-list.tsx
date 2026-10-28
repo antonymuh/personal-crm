@@ -44,7 +44,9 @@ export function ContactList({ items }: { items: ContactListItem[] }) {
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0">
-                  <div className="truncate font-display font-bold">{c.name}</div>
+                  <div className="truncate font-display font-bold">
+                    {c.name}
+                  </div>
                   {c.howWeMet && (
                     <div className="mt-0.5 truncate text-sm text-muted-foreground">
                       {c.howWeMet}

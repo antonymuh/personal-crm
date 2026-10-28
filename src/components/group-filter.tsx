@@ -30,7 +30,10 @@ function FilterLink({
       href={href}
       aria-current={selected ? "page" : undefined}
       className={cn(
-        buttonVariants({ variant: selected ? "default" : "outline", size: "sm" }),
+        buttonVariants({
+          variant: selected ? "default" : "outline",
+          size: "sm",
+        }),
         "max-w-full"
       )}
     >

@@ -69,7 +69,9 @@ export const groups = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (table) => [uniqueIndex("groups_name_lower_idx").on(sql`lower(${table.name})`)]
+  (table) => [
+    uniqueIndex("groups_name_lower_idx").on(sql`lower(${table.name})`),
+  ]
 );
 
 // Which contact is in which group. Deleting a contact or a group removes only
