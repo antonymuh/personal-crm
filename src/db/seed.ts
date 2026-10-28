@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { sql } from "drizzle-orm";
 
-import { contacts, notes } from "./schema";
+import { contactGroups, contacts, groups, notes } from "./schema";
 import { CONTACT_FREQUENCIES, type ContactFrequency } from "../lib/contact-frequency";
 
 config({ path: ".env" });
@@ -14,6 +14,7 @@ if (!connectionString) {
 }
 
 const TOTAL = 1000;
+const GROUP_NAMES = ["Семья", "Друзья", "Знакомые", "Теннис", "Аналитики"];
 const RESET_FLAG = "--reset";
 
 const maleFirst = [
@@ -168,26 +169,41 @@ function buildContact(index: number): SeedContact {
 
 async function main() {
   const client = postgres(connectionString!, { max: 1 });
-  const db = drizzle(client, { schema: { contacts, notes } });
+  const db = drizzle(client, { schema: { contacts, notes, groups, contactGroups } });
 
   // Seeding replaces everything, so never do it to a non-empty database
   // unless the caller asked for it explicitly.
-  const [{ existing }] = await db.execute<{ existing: number }>(
-    sql`select count(*)::int as existing from ${contacts}`
+  const [{ existing, existingGroups }] = await db.execute<{
+    existing: number;
+    existingGroups: number;
+  }>(
+    sql`select (select count(*)::int from ${contacts}) as existing, (select count(*)::int from ${groups}) as "existingGroups"`
   );
-  if (existing > 0 && !process.argv.includes(RESET_FLAG)) {
+  const isEmpty = existing === 0 && existingGroups === 0;
+  if (!isEmpty && !process.argv.includes(RESET_FLAG)) {
     console.error(
-      `Refusing to seed: the database already has ${existing} contacts and seeding deletes all of them.\n` +
+      `Refusing to seed: the database already has ${existing} contacts and ${existingGroups} groups, and seeding deletes all of them.\n` +
         `Nothing was changed. To wipe the database and seed anyway, run: pnpm db:seed ${RESET_FLAG}`
     );
     await client.end();
     process.exit(1);
   }
 
-  if (existing > 0) {
-    console.warn(`WARNING: deleting ${existing} existing contacts and all their notes…`);
-    await db.execute(sql`truncate table ${notes}, ${contacts} restart identity cascade`);
+  if (!isEmpty) {
+    console.warn(
+      `WARNING: deleting ${existing} existing contacts with all their notes and ${existingGroups} groups…`
+    );
+    await db.execute(
+      sql`truncate table ${contactGroups}, ${groups}, ${notes}, ${contacts} restart identity cascade`
+    );
   }
+
+  const groupIds = (
+    await db
+      .insert(groups)
+      .values(GROUP_NAMES.map((name) => ({ name })))
+      .returning({ id: groups.id })
+  ).map((g) => g.id);
 
   console.log(`Generating ${TOTAL} contacts…`);
   const seedContacts: SeedContact[] = Array.from({ length: TOTAL }, (_, i) =>
@@ -198,6 +214,7 @@ async function main() {
   const twoYears = 1000 * 60 * 60 * 24 * 365 * 2;
   const CHUNK = 250;
   let totalNotes = 0;
+  let totalMemberships = 0;
 
   for (let i = 0; i < seedContacts.length; i += CHUNK) {
     const chunk = seedContacts.slice(i, i + CHUNK);
@@ -221,13 +238,29 @@ async function main() {
       await db.insert(notes).values(noteRows);
       totalNotes += noteRows.length;
     }
+
+    // About half of the contacts go into one or two groups.
+    const membershipRows: { contactId: number; groupId: number }[] = [];
+    for (const row of inserted) {
+      if (Math.random() >= 0.5) continue;
+      const shuffled = [...groupIds].sort(() => Math.random() - 0.5);
+      for (const groupId of shuffled.slice(0, randInt(1, 2))) {
+        membershipRows.push({ contactId: row.id, groupId });
+      }
+    }
+    if (membershipRows.length > 0) {
+      await db.insert(contactGroups).values(membershipRows);
+      totalMemberships += membershipRows.length;
+    }
     console.log(`  inserted ${Math.min(i + CHUNK, seedContacts.length)}/${TOTAL}`);
   }
 
   const [{ c }] = await db.execute<{ c: number }>(
     sql`select count(*)::int as c from ${contacts}`
   );
-  console.log(`Done. Contacts: ${c}, notes: ${totalNotes}.`);
+  console.log(
+    `Done. Contacts: ${c}, notes: ${totalNotes}, groups: ${groupIds.length}, group memberships: ${totalMemberships}.`
+  );
 
   await client.end();
 }

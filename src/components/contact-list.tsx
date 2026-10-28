@@ -5,6 +5,7 @@ import { Mail, Phone, StickyNote } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { DueBadge } from "@/components/due-badge";
+import { GroupBadges } from "@/components/group-badges";
 
 export type ContactListItem = {
   id: number;
@@ -14,6 +15,7 @@ export type ContactListItem = {
   email: string | null;
   noteCount: number;
   isDue: boolean;
+  groupNames: string[];
 };
 
 // Rendered as a client component on purpose: the server then sends plain row
@@ -62,6 +64,7 @@ export function ContactList({ items }: { items: ContactListItem[] }) {
                       </span>
                     )}
                   </div>
+                  <GroupBadges names={c.groupNames} className="mt-2" />
                 </div>
                 <div className="flex shrink-0 flex-col items-end gap-1.5">
                   {c.isDue && <DueBadge />}

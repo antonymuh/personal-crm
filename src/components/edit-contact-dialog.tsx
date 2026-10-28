@@ -13,7 +13,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ContactFields } from "@/components/contact-fields";
+import {
+  ContactFields,
+  type GroupOption,
+} from "@/components/contact-fields";
 
 type Contact = {
   id: number;
@@ -24,7 +27,15 @@ type Contact = {
   contactFrequency: string | null;
 };
 
-export function EditContactDialog({ contact }: { contact: Contact }) {
+export function EditContactDialog({
+  contact,
+  groups,
+  groupIds,
+}: {
+  contact: Contact;
+  groups: GroupOption[];
+  groupIds: number[];
+}) {
   const [open, setOpen] = useState(false);
   const [state, formAction, pending] = useActionState<
     ActionResult | null,
@@ -44,13 +55,13 @@ export function EditContactDialog({ contact }: { contact: Contact }) {
           Изменить
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Изменить контакт</DialogTitle>
         </DialogHeader>
         <form action={formAction} className="grid gap-4">
           <input type="hidden" name="id" value={contact.id} />
-          <ContactFields defaults={contact} />
+          <ContactFields defaults={{ ...contact, groupIds }} groups={groups} />
           {state?.error && (
             <p className="text-sm text-destructive">{state.error}</p>
           )}

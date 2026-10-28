@@ -1,40 +1,38 @@
-import { ilike, sql } from "drizzle-orm";
-
-import { db } from "@/db";
-import { contacts, notes } from "@/db/schema";
-import { isDue, keepInTouchOrder } from "@/db/keep-in-touch";
+import { listContacts } from "@/db/contact-list";
+import { listGroups } from "@/db/groups";
 import { Card } from "@/components/ui/card";
 import { ContactList } from "@/components/contact-list";
 import { ContactSearch } from "@/components/contact-search";
 import { AddContactDialog } from "@/components/add-contact-dialog";
+import { GroupFilter } from "@/components/group-filter";
+import { findSelectedGroup } from "@/lib/groups";
 
 export const dynamic = "force-dynamic";
+
+function emptyMessage(query: string, inGroup: boolean): string {
+  if (query) return "Никого не нашли. Попробуйте другое имя.";
+  if (inGroup) return "В этой группе пока никого нет";
+  return "Пока нет контактов. Добавьте первый.";
+}
+
+function countLabel(query: string, inGroup: boolean, count: number): string {
+  if (query) return `Найдено: ${count}`;
+  if (inGroup) return `В группе: ${count}`;
+  return `Всего контактов: ${count}`;
+}
 
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; group?: string | string[] }>;
 }) {
-  const { q } = await searchParams;
+  const { q, group } = await searchParams;
   const query = q?.trim() ?? "";
 
-  // Note counts come from the same query, so the database is hit once.
-  // The outer id is qualified by hand: in a single-table select Drizzle drops
-  // table names, and a bare "id" inside the subquery would mean notes.id.
-  const rows = await db
-    .select({
-      id: contacts.id,
-      name: contacts.name,
-      howWeMet: contacts.howWeMet,
-      phone: contacts.phone,
-      email: contacts.email,
-      noteCount: sql<number>`(select count(*)::int from ${notes} where ${notes.contactId} = ${contacts}.${sql.identifier(contacts.id.name)})`,
-      isDue,
-    })
-    .from(contacts)
-    .where(query ? ilike(contacts.name, `%${query}%`) : undefined)
-    // Contacts it is time to get in touch with come first.
-    .orderBy(...keepInTouchOrder);
+  // A group that no longer exists (e.g. deleted in another tab) means "all".
+  const groups = await listGroups();
+  const selected = findSelectedGroup(groups, group);
+  const rows = await listContacts({ query, groupId: selected?.id ?? null });
 
   return (
     <div className="space-y-6">
@@ -44,21 +42,19 @@ export default async function HomePage({
             Контакты
           </h1>
           <p className="mt-1 text-muted-foreground">
-            {query
-              ? `Найдено: ${rows.length}`
-              : `Всего контактов: ${rows.length}`}
+            {countLabel(query, selected !== null, rows.length)}
           </p>
         </div>
-        <AddContactDialog />
+        <AddContactDialog groups={groups} />
       </div>
 
-      <ContactSearch initialQuery={query} />
+      <ContactSearch initialQuery={query} groupId={selected?.id ?? null} />
+
+      <GroupFilter groups={groups} selected={selected} query={query} />
 
       {rows.length === 0 ? (
         <Card className="p-10 text-center text-lg text-muted-foreground">
-          {query
-            ? "Никого не нашли. Попробуйте другое имя."
-            : "Пока нет контактов. Добавьте первый."}
+          {emptyMessage(query, selected !== null)}
         </Card>
       ) : (
         <ContactList items={rows} />
