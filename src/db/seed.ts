@@ -3,8 +3,11 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { sql } from "drizzle-orm";
 
-import { contacts, notes } from "./schema";
-import { CONTACT_FREQUENCIES, type ContactFrequency } from "../lib/contact-frequency";
+import { contactGroups, contacts, groups, notes } from "./schema";
+import {
+  CONTACT_FREQUENCIES,
+  type ContactFrequency,
+} from "../lib/contact-frequency";
 
 config({ path: ".env" });
 
@@ -14,32 +17,124 @@ if (!connectionString) {
 }
 
 const TOTAL = 1000;
+const GROUP_NAMES = ["Семья", "Друзья", "Знакомые", "Теннис", "Аналитики"];
 const RESET_FLAG = "--reset";
 
 const maleFirst = [
-  "Александр", "Дмитрий", "Максим", "Сергей", "Андрей", "Алексей", "Артём",
-  "Илья", "Кирилл", "Михаил", "Никита", "Роман", "Егор", "Арсений", "Иван",
-  "Денис", "Евгений", "Даниил", "Тимофей", "Владислав", "Павел", "Георгий",
-  "Константин", "Пётр", "Григорий", "Фёдор", "Степан", "Виктор", "Антон", "Олег",
+  "Александр",
+  "Дмитрий",
+  "Максим",
+  "Сергей",
+  "Андрей",
+  "Алексей",
+  "Артём",
+  "Илья",
+  "Кирилл",
+  "Михаил",
+  "Никита",
+  "Роман",
+  "Егор",
+  "Арсений",
+  "Иван",
+  "Денис",
+  "Евгений",
+  "Даниил",
+  "Тимофей",
+  "Владислав",
+  "Павел",
+  "Георгий",
+  "Константин",
+  "Пётр",
+  "Григорий",
+  "Фёдор",
+  "Степан",
+  "Виктор",
+  "Антон",
+  "Олег",
 ];
 const femaleFirst = [
-  "Анна", "Мария", "Елена", "Дарья", "Анастасия", "Екатерина", "Ольга",
-  "Наталья", "Татьяна", "Ирина", "Юлия", "Светлана", "Виктория", "Полина",
-  "Ксения", "София", "Алиса", "Вероника", "Маргарита", "Людмила", "Валерия",
-  "Евгения", "Галина", "Алина", "Кристина", "Оксана", "Марина", "Любовь",
-  "Надежда", "Элина",
+  "Анна",
+  "Мария",
+  "Елена",
+  "Дарья",
+  "Анастасия",
+  "Екатерина",
+  "Ольга",
+  "Наталья",
+  "Татьяна",
+  "Ирина",
+  "Юлия",
+  "Светлана",
+  "Виктория",
+  "Полина",
+  "Ксения",
+  "София",
+  "Алиса",
+  "Вероника",
+  "Маргарита",
+  "Людмила",
+  "Валерия",
+  "Евгения",
+  "Галина",
+  "Алина",
+  "Кристина",
+  "Оксана",
+  "Марина",
+  "Любовь",
+  "Надежда",
+  "Элина",
 ];
 const maleLast = [
-  "Иванов", "Смирнов", "Кузнецов", "Попов", "Васильев", "Петров", "Соколов",
-  "Михайлов", "Новиков", "Фёдоров", "Морозов", "Волков", "Алексеев", "Лебедев",
-  "Семёнов", "Егоров", "Павлов", "Козлов", "Степанов", "Николаев", "Орлов",
-  "Андреев", "Макаров", "Никитин", "Захаров", "Зайцев", "Соловьёв", "Борисов",
-  "Яковлев", "Григорьев",
+  "Иванов",
+  "Смирнов",
+  "Кузнецов",
+  "Попов",
+  "Васильев",
+  "Петров",
+  "Соколов",
+  "Михайлов",
+  "Новиков",
+  "Фёдоров",
+  "Морозов",
+  "Волков",
+  "Алексеев",
+  "Лебедев",
+  "Семёнов",
+  "Егоров",
+  "Павлов",
+  "Козлов",
+  "Степанов",
+  "Николаев",
+  "Орлов",
+  "Андреев",
+  "Макаров",
+  "Никитин",
+  "Захаров",
+  "Зайцев",
+  "Соловьёв",
+  "Борисов",
+  "Яковлев",
+  "Григорьев",
 ];
 const cities = [
-  "Москва", "Санкт-Петербург", "Новосибирск", "Екатеринбург", "Казань",
-  "Нижний Новгород", "Челябинск", "Самара", "Уфа", "Ростов-на-Дону", "Краснодар",
-  "Воронеж", "Пермь", "Волгоград", "Сочи", "Тюмень", "Калининград", "Иркутск",
+  "Москва",
+  "Санкт-Петербург",
+  "Новосибирск",
+  "Екатеринбург",
+  "Казань",
+  "Нижний Новгород",
+  "Челябинск",
+  "Самара",
+  "Уфа",
+  "Ростов-на-Дону",
+  "Краснодар",
+  "Воронеж",
+  "Пермь",
+  "Волгоград",
+  "Сочи",
+  "Тюмень",
+  "Калининград",
+  "Иркутск",
 ];
 const howWeMetTemplates = [
   (c: string) => `Конференция в ${c}`,
@@ -85,10 +180,39 @@ const noteTemplates = [
 ];
 
 const translitMap: Record<string, string> = {
-  а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ё: "e", ж: "zh", з: "z",
-  и: "i", й: "y", к: "k", л: "l", м: "m", н: "n", о: "o", п: "p", р: "r",
-  с: "s", т: "t", у: "u", ф: "f", х: "h", ц: "ts", ч: "ch", ш: "sh", щ: "sch",
-  ъ: "", ы: "y", ь: "", э: "e", ю: "yu", я: "ya",
+  а: "a",
+  б: "b",
+  в: "v",
+  г: "g",
+  д: "d",
+  е: "e",
+  ё: "e",
+  ж: "zh",
+  з: "z",
+  и: "i",
+  й: "y",
+  к: "k",
+  л: "l",
+  м: "m",
+  н: "n",
+  о: "o",
+  п: "p",
+  р: "r",
+  с: "s",
+  т: "t",
+  у: "u",
+  ф: "f",
+  х: "h",
+  ц: "ts",
+  ч: "ch",
+  ш: "sh",
+  щ: "sch",
+  ъ: "",
+  ы: "y",
+  ь: "",
+  э: "e",
+  ю: "yu",
+  я: "ya",
 };
 
 function translit(text: string): string {
@@ -110,7 +234,13 @@ function feminize(lastName: string): string {
   return lastName + "а";
 }
 
-const emailDomains = ["gmail.com", "yandex.ru", "mail.ru", "outlook.com", "icloud.com"];
+const emailDomains = [
+  "gmail.com",
+  "yandex.ru",
+  "mail.ru",
+  "outlook.com",
+  "icloud.com",
+];
 
 type SeedContact = {
   name: string;
@@ -168,26 +298,43 @@ function buildContact(index: number): SeedContact {
 
 async function main() {
   const client = postgres(connectionString!, { max: 1 });
-  const db = drizzle(client, { schema: { contacts, notes } });
+  const db = drizzle(client, {
+    schema: { contacts, notes, groups, contactGroups },
+  });
 
   // Seeding replaces everything, so never do it to a non-empty database
   // unless the caller asked for it explicitly.
-  const [{ existing }] = await db.execute<{ existing: number }>(
-    sql`select count(*)::int as existing from ${contacts}`
+  const [{ existing, existingGroups }] = await db.execute<{
+    existing: number;
+    existingGroups: number;
+  }>(
+    sql`select (select count(*)::int from ${contacts}) as existing, (select count(*)::int from ${groups}) as "existingGroups"`
   );
-  if (existing > 0 && !process.argv.includes(RESET_FLAG)) {
+  const isEmpty = existing === 0 && existingGroups === 0;
+  if (!isEmpty && !process.argv.includes(RESET_FLAG)) {
     console.error(
-      `Refusing to seed: the database already has ${existing} contacts and seeding deletes all of them.\n` +
+      `Refusing to seed: the database already has ${existing} contacts and ${existingGroups} groups, and seeding deletes all of them.\n` +
         `Nothing was changed. To wipe the database and seed anyway, run: pnpm db:seed ${RESET_FLAG}`
     );
     await client.end();
     process.exit(1);
   }
 
-  if (existing > 0) {
-    console.warn(`WARNING: deleting ${existing} existing contacts and all their notes…`);
-    await db.execute(sql`truncate table ${notes}, ${contacts} restart identity cascade`);
+  if (!isEmpty) {
+    console.warn(
+      `WARNING: deleting ${existing} existing contacts with all their notes and ${existingGroups} groups…`
+    );
+    await db.execute(
+      sql`truncate table ${contactGroups}, ${groups}, ${notes}, ${contacts} restart identity cascade`
+    );
   }
+
+  const groupIds = (
+    await db
+      .insert(groups)
+      .values(GROUP_NAMES.map((name) => ({ name })))
+      .returning({ id: groups.id })
+  ).map((g) => g.id);
 
   console.log(`Generating ${TOTAL} contacts…`);
   const seedContacts: SeedContact[] = Array.from({ length: TOTAL }, (_, i) =>
@@ -198,6 +345,7 @@ async function main() {
   const twoYears = 1000 * 60 * 60 * 24 * 365 * 2;
   const CHUNK = 250;
   let totalNotes = 0;
+  let totalMemberships = 0;
 
   for (let i = 0; i < seedContacts.length; i += CHUNK) {
     const chunk = seedContacts.slice(i, i + CHUNK);
@@ -221,13 +369,31 @@ async function main() {
       await db.insert(notes).values(noteRows);
       totalNotes += noteRows.length;
     }
-    console.log(`  inserted ${Math.min(i + CHUNK, seedContacts.length)}/${TOTAL}`);
+
+    // About half of the contacts go into one or two groups.
+    const membershipRows: { contactId: number; groupId: number }[] = [];
+    for (const row of inserted) {
+      if (Math.random() >= 0.5) continue;
+      const shuffled = [...groupIds].sort(() => Math.random() - 0.5);
+      for (const groupId of shuffled.slice(0, randInt(1, 2))) {
+        membershipRows.push({ contactId: row.id, groupId });
+      }
+    }
+    if (membershipRows.length > 0) {
+      await db.insert(contactGroups).values(membershipRows);
+      totalMemberships += membershipRows.length;
+    }
+    console.log(
+      `  inserted ${Math.min(i + CHUNK, seedContacts.length)}/${TOTAL}`
+    );
   }
 
   const [{ c }] = await db.execute<{ c: number }>(
     sql`select count(*)::int as c from ${contacts}`
   );
-  console.log(`Done. Contacts: ${c}, notes: ${totalNotes}.`);
+  console.log(
+    `Done. Contacts: ${c}, notes: ${totalNotes}, groups: ${groupIds.length}, group memberships: ${totalMemberships}.`
+  );
 
   await client.end();
 }

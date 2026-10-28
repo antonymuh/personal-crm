@@ -18,14 +18,16 @@ const frequencyInterval = sql.join(
 );
 
 // When the next conversation is due; NULL if no frequency or never contacted.
-export const dueAt = sql<Date | null>`(${contacts.lastContactedAt} + ${frequencyInterval})`.mapWith(
-  contacts.lastContactedAt
-);
+export const dueAt =
+  sql<Date | null>`(${contacts.lastContactedAt} + ${frequencyInterval})`.mapWith(
+    contacts.lastContactedAt
+  );
 
 // A frequency is set and either we never talked or the period has passed.
-export const isDue = sql<boolean>`(${contacts.contactFrequency} is not null and (${contacts.lastContactedAt} is null or ${dueAt} <= now()))`.mapWith(
-  Boolean
-);
+export const isDue =
+  sql<boolean>`(${contacts.contactFrequency} is not null and (${contacts.lastContactedAt} is null or ${dueAt} <= now()))`.mapWith(
+    Boolean
+  );
 
 // Due contacts first: never contacted, then the longest overdue; the rest by name.
 export const keepInTouchOrder = [

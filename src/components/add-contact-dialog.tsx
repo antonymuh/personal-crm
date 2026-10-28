@@ -14,9 +14,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ContactFields } from "@/components/contact-fields";
+import { ContactFields, type GroupOption } from "@/components/contact-fields";
 
-export function AddContactDialog() {
+export function AddContactDialog({ groups }: { groups: GroupOption[] }) {
   const [open, setOpen] = useState(false);
   const [state, formAction, pending] = useActionState<
     ActionResult | null,
@@ -36,7 +36,7 @@ export function AddContactDialog() {
           Добавить контакт
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Новый контакт</DialogTitle>
           <DialogDescription>
@@ -44,7 +44,7 @@ export function AddContactDialog() {
           </DialogDescription>
         </DialogHeader>
         <form action={formAction} className="grid gap-4">
-          <ContactFields />
+          <ContactFields groups={groups} />
           {state?.error && (
             <p className="text-sm text-destructive">{state.error}</p>
           )}

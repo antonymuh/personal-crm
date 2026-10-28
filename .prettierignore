@@ -1,0 +1,8 @@
+pnpm-lock.yaml
+drizzle/
+openspec/
+next-env.d.ts
+public/
+.claude/
+CLAUDE.md
+AGENTS.md
