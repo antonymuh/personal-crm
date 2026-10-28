@@ -10,6 +10,10 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      # Stay on the Node LTS line; major upgrades are done by hand.
+      - dependency-name: node
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
