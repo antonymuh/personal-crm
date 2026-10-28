@@ -2,6 +2,7 @@ import { listContacts } from "@/db/contact-list";
 import { listGroups } from "@/db/groups";
 import { Card } from "@/components/ui/card";
 import { ContactList } from "@/components/contact-list";
+import { ChosenGroupProvider } from "@/components/chosen-group";
 import { ContactSearch } from "@/components/contact-search";
 import { AddContactDialog } from "@/components/add-contact-dialog";
 import { GroupFilter } from "@/components/group-filter";
@@ -48,9 +49,11 @@ export default async function HomePage({
         <AddContactDialog groups={groups} />
       </div>
 
-      <ContactSearch initialQuery={query} groupId={selected?.id ?? null} />
+      <ChosenGroupProvider groupId={selected?.id ?? null}>
+        <ContactSearch initialQuery={query} />
 
-      <GroupFilter groups={groups} selected={selected} query={query} />
+        <GroupFilter groups={groups} selected={selected} query={query} />
+      </ChosenGroupProvider>
 
       {rows.length === 0 ? (
         <Card className="p-10 text-center text-lg text-muted-foreground">
