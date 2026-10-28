@@ -9,7 +9,7 @@
 - Next.js (App Router) + TypeScript
 - React, Tailwind CSS, shadcn/ui
 - PostgreSQL (в Docker), Drizzle ORM
-- Vitest (автотесты)
+- Vitest и Playwright (автотесты), Prettier (формат кода)
 - pnpm
 
 Данные читаются и пишутся только на сервере (Server Components + Server Actions).
@@ -82,6 +82,13 @@ pnpm dev
 - `pnpm test` — автотесты (Vitest). Нужен запущенный Docker с базой
   (`docker compose up -d`). Тесты сами создают отдельную базу `personal_crm_test`
   в том же контейнере и работают только с ней — ваши контакты не трогают
+- `pnpm test:e2e` — тесты в настоящем браузере (Playwright). Тоже нужен Docker
+  с базой. Собирают приложение, запускают его на http://127.0.0.1:3100 с отдельной
+  базой `personal_crm_e2e_test` и проходят главный сценарий, группы и «Пора
+  связаться». `pnpm dev` на порту 3000 при этом можно не останавливать.
+  Перед первым запуском один раз: `pnpm exec playwright install chromium`
+- `pnpm format` — привести код к единому формату (Prettier);
+  `pnpm format:check` — только проверить
 - `pnpm db:push` — применить схему к базе
 - `pnpm db:migrate` — применить миграции из `drizzle/` к базе
 - `pnpm db:generate` — сгенерировать SQL-миграцию из схемы
@@ -89,6 +96,20 @@ pnpm dev
 - `pnpm db:seed --reset` — **удалить все контакты, заметки и группы** и заполнить базу заново
 - `pnpm db:studio` — веб-интерфейс к базе (Drizzle Studio)
 - `docker compose down` — остановить базу (данные сохраняются в volume)
+
+## Проверки на каждый PR (CI)
+
+На каждый pull request GitHub Actions запускает (вкладка **Checks** в PR):
+
+- **Lint, format, types, unit tests** — ESLint, Prettier, TypeScript, Vitest;
+- **E2E (Playwright)** — тесты в браузере. Если упали, отчёт со следами
+  (trace) — в Actions → нужный запуск → Artifacts → `playwright-report`;
+- **Docker image build** — образ собирается так же, как при выкатке, но никуда
+  не отправляется;
+- **Security audit** — уязвимости в зависимостях.
+
+База в CI своя, одноразовая, внутри запуска. Красный CI — PR не вливаем,
+чиним причину.
 
 ## Выкатка на сервер
 
