@@ -5,6 +5,8 @@ import {
   text,
   timestamp,
   index,
+  uniqueIndex,
+  primaryKey,
   check,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
@@ -56,7 +58,45 @@ export const notes = pgTable(
   (table) => [index("notes_contact_id_idx").on(table.contactId)]
 );
 
+// Groups I sort contacts into (family, friends, tennis...). Names are unique
+// regardless of case: "Теннис" and "теннис" are the same group.
+export const groups = pgTable(
+  "groups",
+  {
+    id: serial("id").primaryKey(),
+    name: text("name").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("groups_name_lower_idx").on(sql`lower(${table.name})`),
+  ]
+);
+
+// Which contact is in which group. Deleting a contact or a group removes only
+// the membership, never the other side.
+export const contactGroups = pgTable(
+  "contact_groups",
+  {
+    contactId: integer("contact_id")
+      .notNull()
+      .references(() => contacts.id, { onDelete: "cascade" }),
+    groupId: integer("group_id")
+      .notNull()
+      .references(() => groups.id, { onDelete: "cascade" }),
+  },
+  (table) => [
+    primaryKey({ columns: [table.contactId, table.groupId] }),
+    // The primary key covers lookups by contact; this one serves the group filter.
+    index("contact_groups_group_id_idx").on(table.groupId),
+  ]
+);
+
 export type Contact = typeof contacts.$inferSelect;
 export type NewContact = typeof contacts.$inferInsert;
 export type Note = typeof notes.$inferSelect;
 export type NewNote = typeof notes.$inferInsert;
+export type Group = typeof groups.$inferSelect;
+export type NewGroup = typeof groups.$inferInsert;
+export type ContactGroup = typeof contactGroups.$inferSelect;

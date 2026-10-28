@@ -6,12 +6,15 @@ import { ArrowLeft, CalendarClock, Mail, MapPin, Phone } from "lucide-react";
 import { db } from "@/db";
 import { contacts, notes } from "@/db/schema";
 import { dueAt, isDue } from "@/db/keep-in-touch";
+import { getContactGroups } from "@/db/contact-list";
+import { listGroups } from "@/db/groups";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EditContactDialog } from "@/components/edit-contact-dialog";
 import { DeleteContactDialog } from "@/components/delete-contact-dialog";
 import { AddNoteForm } from "@/components/add-note-form";
 import { MarkContactedButton } from "@/components/mark-contacted-button";
 import { DueBadge } from "@/components/due-badge";
+import { GroupBadges } from "@/components/group-badges";
 import { formatDate, formatDateTime } from "@/lib/format";
 import { frequencyLabel } from "@/lib/contact-frequency";
 
@@ -34,11 +37,15 @@ export default async function ContactPage({
 
   if (!contact) notFound();
 
-  const noteList = await db
-    .select()
-    .from(notes)
-    .where(eq(notes.contactId, contactId))
-    .orderBy(desc(notes.createdAt));
+  const [noteList, contactGroupList, allGroups] = await Promise.all([
+    db
+      .select()
+      .from(notes)
+      .where(eq(notes.contactId, contactId))
+      .orderBy(desc(notes.createdAt)),
+    getContactGroups(contactId),
+    listGroups(),
+  ]);
 
   return (
     <div className="space-y-6">
@@ -62,11 +69,16 @@ export default async function ContactPage({
         <CardHeader className="flex-row items-start justify-between gap-4 space-y-0">
           <CardTitle className="text-2xl sm:text-3xl">{contact.name}</CardTitle>
           <div className="flex shrink-0 flex-wrap justify-end gap-2">
-            <EditContactDialog contact={contact} />
+            <EditContactDialog
+              contact={contact}
+              groups={allGroups}
+              groupIds={contactGroupList.map((g) => g.id)}
+            />
             <DeleteContactDialog contact={contact} />
           </div>
         </CardHeader>
         <CardContent className="grid gap-2.5">
+          <GroupBadges names={contactGroupList.map((g) => g.name)} />
           {contact.howWeMet && (
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 shrink-0 text-muted-foreground" />
@@ -76,7 +88,10 @@ export default async function ContactPage({
           {contact.phone && (
             <div className="flex items-center gap-2">
               <Phone className="h-4 w-4 shrink-0 text-muted-foreground" />
-              <a href={`tel:${contact.phone}`} className="font-medium hover:text-blue hover:underline">
+              <a
+                href={`tel:${contact.phone}`}
+                className="font-medium hover:text-blue hover:underline"
+              >
                 {contact.phone}
               </a>
             </div>
@@ -84,7 +99,10 @@ export default async function ContactPage({
           {contact.email && (
             <div className="flex items-center gap-2">
               <Mail className="h-4 w-4 shrink-0 text-muted-foreground" />
-              <a href={`mailto:${contact.email}`} className="font-medium hover:text-blue hover:underline">
+              <a
+                href={`mailto:${contact.email}`}
+                className="font-medium hover:text-blue hover:underline"
+              >
                 {contact.email}
               </a>
             </div>
@@ -98,7 +116,9 @@ export default async function ContactPage({
       </Card>
 
       <section className="space-y-4">
-        <h2 className="font-display text-2xl font-bold tracking-[-0.02em]">Связь</h2>
+        <h2 className="font-display text-2xl font-bold tracking-[-0.02em]">
+          Связь
+        </h2>
 
         <Card className="rounded-sketch p-4 shadow-pop-pink sm:px-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
@@ -142,7 +162,9 @@ export default async function ContactPage({
       </section>
 
       <section className="space-y-4">
-        <h2 className="font-display text-2xl font-bold tracking-[-0.02em]">Заметки</h2>
+        <h2 className="font-display text-2xl font-bold tracking-[-0.02em]">
+          Заметки
+        </h2>
 
         <Card className="rounded-sketch-alt p-4 shadow-pop-cyan">
           <AddNoteForm contactId={contact.id} />
@@ -166,7 +188,9 @@ export default async function ContactPage({
                   <p className="font-hand text-lg leading-none font-bold">
                     {formatDateTime(note.createdAt)}
                   </p>
-                  <p className="mt-2 whitespace-pre-wrap font-medium">{note.body}</p>
+                  <p className="mt-2 whitespace-pre-wrap font-medium">
+                    {note.body}
+                  </p>
                 </div>
               </li>
             ))}

@@ -1,6 +1,10 @@
 import "server-only";
 
-import { drizzle } from "drizzle-orm/postgres-js";
+import {
+  drizzle,
+  type PostgresJsQueryResultHKT,
+} from "drizzle-orm/postgres-js";
+import type { PgDatabase } from "drizzle-orm/pg-core";
 import postgres from "postgres";
 
 import * as schema from "./schema";
@@ -31,3 +35,7 @@ if (process.env.NODE_ENV !== "production") {
 
 export const db = drizzle(client, { schema });
 export { schema };
+
+// The app connection or a transaction opened on it; data functions accept
+// either, so callers can group several of them into one transaction.
+export type Executor = PgDatabase<PostgresJsQueryResultHKT, typeof schema>;

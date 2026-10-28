@@ -6,7 +6,14 @@ import { Search } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 
-export function ContactSearch({ initialQuery }: { initialQuery: string }) {
+export function ContactSearch({
+  initialQuery,
+  groupId,
+}: {
+  initialQuery: string;
+  // The chosen group filter, kept in the address while typing.
+  groupId: number | null;
+}) {
   const [value, setValue] = useState(initialQuery);
   const router = useRouter();
   const pathname = usePathname();
@@ -25,6 +32,7 @@ export function ContactSearch({ initialQuery }: { initialQuery: string }) {
     timeout.current = setTimeout(() => {
       const params = new URLSearchParams();
       if (next.trim()) params.set("q", next.trim());
+      if (groupId !== null) params.set("group", String(groupId));
       const qs = params.toString();
       startTransition(() => {
         router.replace(qs ? `${pathname}?${qs}` : pathname);

@@ -8,7 +8,14 @@ export function Logo({ className }: { className?: string }) {
         strokeWidth="2.5"
         strokeLinejoin="round"
       />
-      <circle cx="22" cy="18" r="5.5" fill="none" className="stroke-ink" strokeWidth="2.5" />
+      <circle
+        cx="22"
+        cy="18"
+        r="5.5"
+        fill="none"
+        className="stroke-ink"
+        strokeWidth="2.5"
+      />
       <path
         d="M12 33 C 14 26, 30 26, 32 33"
         fill="none"
