@@ -1,3 +1,8 @@
 allowBuilds:
   esbuild: true
   unrs-resolver: false
+
+overrides:
+  # drizzle-kit lists it but never loads it; it pulls in esbuild 0.18,
+  # which has a known vulnerability. Drop once drizzle-kit 1.0 is stable.
+  "@esbuild-kit/esm-loader": "-"
