@@ -66,9 +66,12 @@ export default async function ContactPage({
           <span className="h-3.5 w-3.5 border-2 border-ink bg-green" />
           <span className="h-3.5 w-3.5 border-2 border-ink bg-red" />
         </div>
-        <CardHeader className="flex-row items-start justify-between gap-4 space-y-0">
-          <CardTitle className="text-2xl sm:text-3xl">{contact.name}</CardTitle>
-          <div className="flex shrink-0 flex-wrap justify-end gap-2">
+        {/* On a narrow screen the buttons wrap below the name. */}
+        <CardHeader className="flex-row flex-wrap items-start justify-between gap-4 space-y-0">
+          <CardTitle className="min-w-0 text-2xl break-words sm:text-3xl">
+            {contact.name}
+          </CardTitle>
+          <div className="flex flex-wrap gap-2">
             <EditContactDialog
               contact={contact}
               groups={allGroups}
