@@ -65,8 +65,10 @@ jobs:
           printf 'Host deploy-target\n  HostName %s\n  User %s\n  IdentityFile ~/.ssh/deploy_key\n  IdentitiesOnly yes\n' \
             "${{ vars.DEPLOY_HOST }}" "${{ vars.DEPLOY_USER }}" > ~/.ssh/config
 
+      # The whole deploy/ folder, so new scripts arrive on their own. The server's .env,
+      # backups and version files are not in the repo and stay untouched.
       - name: Copy deploy scripts
-        run: scp deploy/compose.yaml deploy/deploy.sh "deploy-target:$DEPLOY_DIR/"
+        run: tar -C deploy -cf - . | ssh deploy-target "tar -C $DEPLOY_DIR -xf - --no-overwrite-dir"
 
       - name: Log in to GHCR on the server
         run: echo "${{ secrets.GITHUB_TOKEN }}" | ssh deploy-target "docker login ghcr.io -u ${{ github.actor }} --password-stdin"
