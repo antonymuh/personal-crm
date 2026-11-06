@@ -1,6 +1,11 @@
 import type { Page } from "@playwright/test";
 
-import { expect, test } from "./fixtures";
+import { expect, signIn, test } from "./fixtures";
+
+// Without signing in the app shows only the sign-in page.
+test.beforeEach(async ({ page }) => {
+  await signIn(page);
+});
 
 async function addContact(page: Page, name: string, howWeMet?: string) {
   await page.getByRole("button", { name: "Добавить контакт" }).click();
@@ -54,6 +59,8 @@ test("list, add, find, note — and the same data in another browser", async ({
   const other = await browser.newContext();
   try {
     const otherPage = await other.newPage();
+    // Another browser of the same user: signed in with the same email.
+    await signIn(otherPage);
     await otherPage.goto("/");
     await expect(otherPage.getByText("Всего контактов: 2")).toBeVisible();
     await expect(otherPage.getByText("Анна Смирнова")).toBeVisible();

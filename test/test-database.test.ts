@@ -4,7 +4,7 @@ import { sql } from "drizzle-orm";
 import { db } from "@/db";
 import { contacts } from "@/db/schema";
 
-import { resetDatabase } from "./db";
+import { addContact, addUser, resetDatabase } from "./db";
 
 describe("test database", () => {
   beforeEach(resetDatabase);
@@ -17,7 +17,8 @@ describe("test database", () => {
   });
 
   it("is empty after a reset", async () => {
-    await db.insert(contacts).values({ name: "Temporary" });
+    const owner = await addUser();
+    await addContact(owner.id, "Temporary");
     await resetDatabase();
     expect(await db.$count(contacts)).toBe(0);
   });

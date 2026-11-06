@@ -1,8 +1,8 @@
 // Applies pending Drizzle migrations from ./drizzle and exits.
 // Runs as a one-off container from the app image before the new app version starts.
-import { drizzle } from "drizzle-orm/postgres-js";
-import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
+
+import { applyMigrations } from "./apply-migrations.mjs";
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
@@ -13,7 +13,10 @@ if (!connectionString) {
 const client = postgres(connectionString, { max: 1 });
 
 try {
-  await migrate(drizzle(client), { migrationsFolder: "./drizzle" });
+  await applyMigrations(client, {
+    migrationsFolder: "./drizzle",
+    ownerEmail: process.env.OWNER_EMAIL,
+  });
   console.log("Migrations applied.");
 } catch (err) {
   console.error("Migration failed:", err);

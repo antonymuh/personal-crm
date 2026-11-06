@@ -1,8 +1,11 @@
-import { asc, eq, inArray, sql } from "drizzle-orm";
+import { and, asc, eq, inArray, sql } from "drizzle-orm";
 
 import { db, type Executor } from "@/db";
-import { contactGroups, groups, type Group } from "@/db/schema";
+import { contactGroups, contacts, groups, type Group } from "@/db/schema";
 import { GROUP_NAME_TAKEN, parseGroupName } from "@/lib/groups";
+
+// Every function works only with the given user's groups: another user's
+// group behaves as if it did not exist.
 
 export type GroupResult = { ok: true } | { ok: false; error: string };
 
@@ -10,6 +13,9 @@ const GROUP_NOT_FOUND = "Группа не найдена";
 
 const sameName = (name: string) =>
   eq(sql`lower(${groups.name})`, sql`lower(${name})`);
+
+const ownGroup = (userId: string, id: number) =>
+  and(eq(groups.id, id), eq(groups.userId, userId));
 
 function isUniqueViolation(err: unknown): boolean {
   const code = (e: unknown) =>
@@ -20,32 +26,48 @@ function isUniqueViolation(err: unknown): boolean {
   );
 }
 
-// All groups, alphabetically (case does not matter).
-export async function listGroups(executor: Executor = db): Promise<Group[]> {
+// The user's groups, alphabetically (case does not matter).
+export async function listGroups(
+  userId: string,
+  executor: Executor = db
+): Promise<Group[]> {
   return executor
     .select()
     .from(groups)
+    .where(eq(groups.userId, userId))
     .orderBy(asc(sql`lower(${groups.name})`), asc(groups.id));
 }
 
-// Returns the group with this name, creating it if there is none yet.
+// Returns the user's group with this name, creating it if there is none yet.
 // ON CONFLICT keeps two simultaneous saves from creating a duplicate.
 export async function findOrCreateGroup(
+  userId: string,
   name: string,
   executor: Executor = db
 ): Promise<Group> {
-  await executor.insert(groups).values({ name }).onConflictDoNothing();
-  const [group] = await executor.select().from(groups).where(sameName(name));
+  await executor.insert(groups).values({ userId, name }).onConflictDoNothing();
+  const [group] = await executor
+    .select()
+    .from(groups)
+    .where(and(eq(groups.userId, userId), sameName(name)));
   return group;
 }
 
-// Replaces the contact's groups with the given ones. Ids of groups that no
-// longer exist (deleted in another tab) are silently dropped.
+// Replaces the contact's groups with the given ones. Ids of groups that are
+// not the user's (deleted in another tab, or someone else's) are silently
+// dropped; another user's contact is left untouched.
 export async function setContactGroups(
+  userId: string,
   contactId: number,
   groupIds: number[],
   executor: Executor = db
 ): Promise<void> {
+  const [own] = await executor
+    .select({ id: contacts.id })
+    .from(contacts)
+    .where(and(eq(contacts.id, contactId), eq(contacts.userId, userId)));
+  if (!own) return;
+
   await executor
     .delete(contactGroups)
     .where(eq(contactGroups.contactId, contactId));
@@ -57,11 +79,12 @@ export async function setContactGroups(
         groupId: groups.id,
       })
       .from(groups)
-      .where(inArray(groups.id, groupIds))
+      .where(and(eq(groups.userId, userId), inArray(groups.id, groupIds)))
   );
 }
 
 export async function renameGroup(
+  userId: string,
   id: number,
   rawName: unknown,
   executor: Executor = db
@@ -73,7 +96,7 @@ export async function renameGroup(
     const updated = await executor
       .update(groups)
       .set({ name: parsed.name })
-      .where(eq(groups.id, id))
+      .where(ownGroup(userId, id))
       .returning({ id: groups.id });
     return updated.length > 0
       ? { ok: true }
@@ -86,8 +109,15 @@ export async function renameGroup(
 
 // Removes only the group; its contacts stay (memberships go by ON DELETE CASCADE).
 export async function deleteGroup(
+  userId: string,
   id: number,
   executor: Executor = db
-): Promise<void> {
-  await executor.delete(groups).where(eq(groups.id, id));
+): Promise<GroupResult> {
+  const deleted = await executor
+    .delete(groups)
+    .where(ownGroup(userId, id))
+    .returning({ id: groups.id });
+  return deleted.length > 0
+    ? { ok: true }
+    : { ok: false, error: GROUP_NOT_FOUND };
 }

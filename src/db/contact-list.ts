@@ -31,9 +31,12 @@ const groupNames = sql<string[]>`coalesce((
 const inGroup = (groupId: number) =>
   sql`exists (select 1 from ${contactGroups} cg where cg.contact_id = ${contactId} and cg.group_id = ${groupId})`;
 
-// The home page list. Note counts and group labels come from the same query,
-// so the database is hit once even with a thousand contacts.
+// The home page list of the user's contacts. Note counts and group labels come
+// from the same query, so the database is hit once even with a thousand contacts.
+// Memberships always pair a contact and a group of the same user, so a group
+// filter never reaches another user's contacts.
 export async function listContacts(
+  userId: string,
   { query, groupId }: { query: string; groupId: number | null },
   executor: Executor = db
 ): Promise<ContactListRow[]> {
@@ -52,6 +55,7 @@ export async function listContacts(
       .from(contacts)
       .where(
         and(
+          eq(contacts.userId, userId),
           query ? ilike(contacts.name, `%${query}%`) : undefined,
           groupId !== null ? inGroup(groupId) : undefined
         )
@@ -61,9 +65,10 @@ export async function listContacts(
   );
 }
 
-// The contact's groups, alphabetically: labels on the contact page and the
-// checked boxes in the edit form.
+// The groups of the user's contact, alphabetically: labels on the contact page
+// and the checked boxes in the edit form. Nothing for another user's contact.
 export async function getContactGroups(
+  userId: string,
   id: number,
   executor: Executor = db
 ): Promise<{ id: number; name: string }[]> {
@@ -71,6 +76,6 @@ export async function getContactGroups(
     .select({ id: groups.id, name: groups.name })
     .from(contactGroups)
     .innerJoin(groups, eq(groups.id, contactGroups.groupId))
-    .where(eq(contactGroups.contactId, id))
+    .where(and(eq(contactGroups.contactId, id), eq(groups.userId, userId)))
     .orderBy(asc(sql`lower(${groups.name})`), asc(groups.id));
 }

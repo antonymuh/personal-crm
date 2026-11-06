@@ -1,6 +1,11 @@
 import type { Locator, Page } from "@playwright/test";
 
-import { expect, test } from "./fixtures";
+import { expect, signIn, test } from "./fixtures";
+
+// Without signing in the app shows only the sign-in page.
+test.beforeEach(async ({ page }) => {
+  await signIn(page);
+});
 
 // A narrow phone screen.
 const WIDTH = 360;

@@ -1,6 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 import { e2eDatabaseUrl } from "./e2e/database";
+import { MAILPIT_SMTP_URL } from "./e2e/mailpit";
 
 // A port of its own, so the tests never hit a `pnpm dev` that is already
 // running against the real database.
@@ -30,6 +31,10 @@ export default defineConfig({
       DATABASE_URL: e2eDatabaseUrl(),
       PORT: String(PORT),
       HOSTNAME: "127.0.0.1",
+      // Sign-in emails go to Mailpit; the tests take the links from there.
+      SMTP_URL: MAILPIT_SMTP_URL,
+      BETTER_AUTH_URL: baseURL,
+      BETTER_AUTH_SECRET: "e2e-only-secret-not-used-anywhere-else",
     },
     reuseExistingServer: false,
     timeout: 300_000,

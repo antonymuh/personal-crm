@@ -28,7 +28,7 @@ COPY --from=builder --chown=node:node /app/.next/static ./.next/static
 COPY --from=builder --chown=node:node /app/public ./public
 COPY --from=builder /app/drizzle ./drizzle
 COPY --from=builder /migrator/node_modules ./migrator/node_modules
-COPY scripts/migrate.mjs ./migrator/migrate.mjs
+COPY scripts/migrate.mjs scripts/apply-migrations.mjs ./migrator/
 USER node
 EXPOSE 3000
 HEALTHCHECK --interval=10s --timeout=5s --start-period=20s --retries=3 \

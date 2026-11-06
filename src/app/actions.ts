@@ -2,19 +2,25 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { eq, sql } from "drizzle-orm";
 
-import { db } from "@/db";
-import { contacts, notes } from "@/db/schema";
 import {
   createContactFromForm,
   updateContactFromForm,
 } from "@/db/contact-form";
 import {
+  addNote as addNoteRow,
+  deleteContact as deleteContactRow,
+  markContacted as markContactedRow,
+} from "@/db/contacts";
+import {
   deleteGroup as deleteGroupRow,
   renameGroup as renameGroupRow,
 } from "@/db/groups";
 import { clean } from "@/lib/form";
+import { requireUser } from "@/lib/session";
+
+// Every action first checks the session (no session: the sign-in page, nothing
+// changes) and then touches only the signed-in user's data.
 
 export type ActionResult = {
   ok: boolean;
@@ -22,11 +28,15 @@ export type ActionResult = {
   contactId?: number;
 };
 
+const CONTACT_NOT_FOUND = "Контакт не найден";
+const GROUP_NOT_FOUND = "Группа не найдена";
+
 export async function createContact(
   _prev: ActionResult | null,
   formData: FormData
 ): Promise<ActionResult> {
-  const result = await createContactFromForm(formData);
+  const user = await requireUser();
+  const result = await createContactFromForm(user.id, formData);
   if (result.ok) revalidatePath("/");
   return result;
 }
@@ -35,7 +45,8 @@ export async function updateContact(
   _prev: ActionResult | null,
   formData: FormData
 ): Promise<ActionResult> {
-  const result = await updateContactFromForm(formData);
+  const user = await requireUser();
+  const result = await updateContactFromForm(user.id, formData);
   if (result.ok) {
     revalidatePath("/");
     revalidatePath(`/contacts/${result.contactId}`);
@@ -48,12 +59,14 @@ export async function deleteContact(
   _prev: ActionResult | null,
   formData: FormData
 ): Promise<ActionResult> {
+  const user = await requireUser();
   const id = Number(formData.get("id"));
   if (!Number.isInteger(id)) {
-    return { ok: false, error: "Контакт не найден" };
+    return { ok: false, error: CONTACT_NOT_FOUND };
   }
 
-  await db.delete(contacts).where(eq(contacts.id, id));
+  // Already gone or not the user's: the list is the right place either way.
+  await deleteContactRow(user.id, id);
 
   revalidatePath("/");
   redirect("/");
@@ -63,21 +76,19 @@ export async function addNote(
   _prev: ActionResult | null,
   formData: FormData
 ): Promise<ActionResult> {
+  const user = await requireUser();
   const contactId = Number(formData.get("contactId"));
   if (!Number.isInteger(contactId)) {
-    return { ok: false, error: "Контакт не найден" };
+    return { ok: false, error: CONTACT_NOT_FOUND };
   }
   const body = clean(formData.get("body"));
   if (!body) {
     return { ok: false, error: "Заметка не может быть пустой" };
   }
 
-  await db.insert(notes).values({ contactId, body });
-  // Touch the contact so "last activity" reflects the new note.
-  await db
-    .update(contacts)
-    .set({ updatedAt: new Date() })
-    .where(eq(contacts.id, contactId));
+  if (!(await addNoteRow(user.id, contactId, body))) {
+    return { ok: false, error: CONTACT_NOT_FOUND };
+  }
 
   revalidatePath(`/contacts/${contactId}`);
   revalidatePath("/");
@@ -89,15 +100,15 @@ export async function markContacted(
   _prev: ActionResult | null,
   formData: FormData
 ): Promise<ActionResult> {
+  const user = await requireUser();
   const contactId = Number(formData.get("contactId"));
   if (!Number.isInteger(contactId)) {
-    return { ok: false, error: "Контакт не найден" };
+    return { ok: false, error: CONTACT_NOT_FOUND };
   }
 
-  await db
-    .update(contacts)
-    .set({ lastContactedAt: sql`now()` })
-    .where(eq(contacts.id, contactId));
+  if (!(await markContactedRow(user.id, contactId))) {
+    return { ok: false, error: CONTACT_NOT_FOUND };
+  }
 
   revalidatePath(`/contacts/${contactId}`);
   revalidatePath("/");
@@ -108,12 +119,13 @@ export async function renameGroup(
   _prev: ActionResult | null,
   formData: FormData
 ): Promise<ActionResult> {
+  const user = await requireUser();
   const id = Number(formData.get("id"));
   if (!Number.isInteger(id)) {
-    return { ok: false, error: "Группа не найдена" };
+    return { ok: false, error: GROUP_NOT_FOUND };
   }
 
-  const result = await renameGroupRow(id, formData.get("name"));
+  const result = await renameGroupRow(user.id, id, formData.get("name"));
   // The name shows up in the filter, the forms and every contact's labels.
   if (result.ok) revalidatePath("/", "layout");
   return result;
@@ -124,12 +136,13 @@ export async function deleteGroup(
   _prev: ActionResult | null,
   formData: FormData
 ): Promise<ActionResult> {
+  const user = await requireUser();
   const id = Number(formData.get("id"));
   if (!Number.isInteger(id)) {
-    return { ok: false, error: "Группа не найдена" };
+    return { ok: false, error: GROUP_NOT_FOUND };
   }
 
-  await deleteGroupRow(id);
+  await deleteGroupRow(user.id, id);
 
   revalidatePath("/", "layout");
   redirect("/");

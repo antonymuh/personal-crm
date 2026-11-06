@@ -1,11 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { desc, eq, getTableColumns } from "drizzle-orm";
 import { ArrowLeft, CalendarClock, Mail, MapPin, Phone } from "lucide-react";
 
-import { db } from "@/db";
-import { contacts, notes } from "@/db/schema";
-import { dueAt, isDue } from "@/db/keep-in-touch";
+import { getContact, listNotes } from "@/db/contacts";
 import { getContactGroups } from "@/db/contact-list";
 import { listGroups } from "@/db/groups";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,6 +14,7 @@ import { DueBadge } from "@/components/due-badge";
 import { GroupBadges } from "@/components/group-badges";
 import { formatDate, formatDateTime } from "@/lib/format";
 import { frequencyLabel } from "@/lib/contact-frequency";
+import { requireUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
@@ -25,26 +23,19 @@ export default async function ContactPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const user = await requireUser();
   const { id } = await params;
   const contactId = Number(id);
   if (!Number.isInteger(contactId)) notFound();
 
-  const [contact] = await db
-    .select({ ...getTableColumns(contacts), dueAt, isDue })
-    .from(contacts)
-    .where(eq(contacts.id, contactId))
-    .limit(1);
-
+  // Another user's contact is "not found", as if it did not exist.
+  const contact = await getContact(user.id, contactId);
   if (!contact) notFound();
 
   const [noteList, contactGroupList, allGroups] = await Promise.all([
-    db
-      .select()
-      .from(notes)
-      .where(eq(notes.contactId, contactId))
-      .orderBy(desc(notes.createdAt)),
-    getContactGroups(contactId),
-    listGroups(),
+    listNotes(user.id, contactId),
+    getContactGroups(user.id, contactId),
+    listGroups(user.id),
   ]);
 
   return (
