@@ -1,7 +1,7 @@
 import { config } from "dotenv";
-import { drizzle } from "drizzle-orm/postgres-js";
-import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
+
+import { applyMigrations } from "../scripts/apply-migrations.mjs";
 
 import {
   assertTestDatabase,
@@ -23,7 +23,8 @@ export function readAppDatabaseUrl(): string {
 }
 
 // Creates the test database if it is missing and applies the migrations from
-// ./drizzle. Connects through the server's built-in "postgres" database, since
+// ./drizzle the same way the deploy does. A test database may keep rows from
+// an earlier run; those get a throwaway owner. Connects through the server's built-in "postgres" database, since
 // the test one may not exist yet.
 export async function prepareTestDatabase(testUrl: string): Promise<void> {
   const testName = databaseName(testUrl);
@@ -49,7 +50,10 @@ export async function prepareTestDatabase(testUrl: string): Promise<void> {
 
   const client = postgres(testUrl, { max: 1, onnotice: () => {} });
   try {
-    await migrate(drizzle(client), { migrationsFolder: "./drizzle" });
+    await applyMigrations(client, {
+      migrationsFolder: "./drizzle",
+      ownerEmail: "leftover-test-data@example.com",
+    });
   } finally {
     await client.end();
   }

@@ -1,9 +1,11 @@
+import { randomUUID } from "node:crypto";
 import { config } from "dotenv";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
-import { contactGroups, contacts, groups, notes } from "./schema";
+import { contactGroups, contacts, groups, notes, user } from "./schema";
+import { parseEmail } from "../lib/email";
 import {
   CONTACT_FREQUENCIES,
   type ContactFrequency,
@@ -15,6 +17,15 @@ const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
   throw new Error("DATABASE_URL is not set. Create .env from .env.example.");
 }
+
+// The demo data belongs to the app owner, like the data from before sign-in.
+const parsedOwnerEmail = parseEmail(process.env.OWNER_EMAIL);
+if (!parsedOwnerEmail.ok) {
+  throw new Error(
+    "OWNER_EMAIL is not set or is not an email. Add OWNER_EMAIL=<your email> to .env (see .env.example)."
+  );
+}
+const OWNER_EMAIL = parsedOwnerEmail.email;
 
 const TOTAL = 1000;
 const GROUP_NAMES = ["Семья", "Друзья", "Знакомые", "Теннис", "Аналитики"];
@@ -299,7 +310,7 @@ function buildContact(index: number): SeedContact {
 async function main() {
   const client = postgres(connectionString!, { max: 1 });
   const db = drizzle(client, {
-    schema: { contacts, notes, groups, contactGroups },
+    schema: { contacts, notes, groups, contactGroups, user },
   });
 
   // Seeding replaces everything, so never do it to a non-empty database
@@ -329,10 +340,26 @@ async function main() {
     );
   }
 
+  // The owner signs in with this email later; the first sign-in finds this user.
+  await db
+    .insert(user)
+    .values({
+      id: randomUUID(),
+      name: "",
+      email: OWNER_EMAIL,
+      emailVerified: true,
+    })
+    .onConflictDoNothing();
+  const [owner] = await db
+    .select({ id: user.id })
+    .from(user)
+    .where(eq(user.email, OWNER_EMAIL));
+  const userId = owner.id;
+
   const groupIds = (
     await db
       .insert(groups)
-      .values(GROUP_NAMES.map((name) => ({ name })))
+      .values(GROUP_NAMES.map((name) => ({ userId, name })))
       .returning({ id: groups.id })
   ).map((g) => g.id);
 
@@ -351,7 +378,7 @@ async function main() {
     const chunk = seedContacts.slice(i, i + CHUNK);
     const inserted = await db
       .insert(contacts)
-      .values(chunk)
+      .values(chunk.map((c) => ({ ...c, userId })))
       .returning({ id: contacts.id });
 
     const noteRows: { contactId: number; body: string; createdAt: Date }[] = [];
@@ -392,7 +419,7 @@ async function main() {
     sql`select count(*)::int as c from ${contacts}`
   );
   console.log(
-    `Done. Contacts: ${c}, notes: ${totalNotes}, groups: ${groupIds.length}, group memberships: ${totalMemberships}.`
+    `Done for ${OWNER_EMAIL}. Contacts: ${c}, notes: ${totalNotes}, groups: ${groupIds.length}, group memberships: ${totalMemberships}.`
   );
 
   await client.end();

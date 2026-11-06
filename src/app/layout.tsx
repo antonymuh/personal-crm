@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { signOut } from "@/app/sign-in/actions";
 import { Logo } from "@/components/logo";
+import { Button } from "@/components/ui/button";
+import { getCurrentUser } from "@/lib/session";
 
 import "./globals.css";
 
@@ -10,9 +13,11 @@ export const metadata: Metadata = {
   description: "Контакты людей, которых я знаю лично",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const user = await getCurrentUser();
+
   return (
     <html lang="ru">
       <body className="min-h-screen antialiased">
@@ -25,6 +30,19 @@ export default function RootLayout({
               <Logo className="h-9 w-9" />
               Личная CRM
             </Link>
+            {user && (
+              <form
+                action={signOut}
+                className="ml-auto flex min-w-0 items-center gap-3"
+              >
+                <span className="truncate text-sm font-medium">
+                  {user.email}
+                </span>
+                <Button type="submit" variant="outline" size="sm">
+                  Выйти
+                </Button>
+              </form>
+            )}
           </div>
         </header>
         <main className="mx-auto max-w-4xl px-4 py-8">{children}</main>

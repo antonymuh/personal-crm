@@ -7,6 +7,7 @@ import { ContactSearch } from "@/components/contact-search";
 import { AddContactDialog } from "@/components/add-contact-dialog";
 import { GroupFilter } from "@/components/group-filter";
 import { findSelectedGroup } from "@/lib/groups";
+import { requireUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
@@ -30,10 +31,14 @@ export default async function HomePage({
   const { q, group } = await searchParams;
   const query = q?.trim() ?? "";
 
-  // A group that no longer exists (e.g. deleted in another tab) means "all".
-  const groups = await listGroups();
+  const user = await requireUser();
+  // A group that no longer exists or is not the user's means "all".
+  const groups = await listGroups(user.id);
   const selected = findSelectedGroup(groups, group);
-  const rows = await listContacts({ query, groupId: selected?.id ?? null });
+  const rows = await listContacts(user.id, {
+    query,
+    groupId: selected?.id ?? null,
+  });
 
   return (
     <div className="space-y-6">

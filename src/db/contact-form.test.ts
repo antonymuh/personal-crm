@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import { contacts, groups } from "@/db/schema";
+import { contacts, groups, type User } from "@/db/schema";
 import { setContactGroups } from "@/db/groups";
 import {
   createContactFromForm,
@@ -11,11 +11,19 @@ import {
 import {
   addContact,
   addGroup,
+  addUser,
   groupNamesOf,
   resetDatabase,
 } from "../../test/db";
 
-beforeEach(resetDatabase);
+let me: User;
+let other: User;
+
+beforeEach(async () => {
+  await resetDatabase();
+  me = await addUser("anna@example.com");
+  other = await addUser("boris@example.com");
+});
 
 function form(fields: Record<string, string | string[]>): FormData {
   const data = new FormData();
@@ -37,10 +45,11 @@ async function contactRow(id: number) {
 
 describe("createContactFromForm", () => {
   it("puts the new contact into the checked groups", async () => {
-    const friends = await addGroup("Друзья");
-    const tennis = await addGroup("Теннис");
+    const friends = await addGroup(me.id, "Друзья");
+    const tennis = await addGroup(me.id, "Теннис");
 
     const result = await createContactFromForm(
+      me.id,
       form({ name: "Вера", groupIds: [String(friends.id), String(tennis.id)] })
     );
 
@@ -48,8 +57,9 @@ describe("createContactFromForm", () => {
     expect(await groupNamesOf(result.contactId)).toEqual(["Друзья", "Теннис"]);
   });
 
-  it("saves the other contact fields as before", async () => {
+  it("saves the other contact fields as before, owned by the user", async () => {
     const result = await createContactFromForm(
+      me.id,
       form({
         name: "  Анна  ",
         howWeMet: "Школа",
@@ -61,6 +71,7 @@ describe("createContactFromForm", () => {
 
     if (!result.ok) throw new Error(result.error);
     expect(await contactRow(result.contactId)).toMatchObject({
+      userId: me.id,
       name: "Анна",
       howWeMet: "Школа",
       phone: null,
@@ -70,28 +81,57 @@ describe("createContactFromForm", () => {
   });
 
   it("leaves the contact without groups when none are checked", async () => {
-    await addGroup("Друзья");
+    await addGroup(me.id, "Друзья");
 
-    const result = await createContactFromForm(form({ name: "Анна" }));
+    const result = await createContactFromForm(me.id, form({ name: "Анна" }));
 
     if (!result.ok) throw new Error(result.error);
     expect(await groupNamesOf(result.contactId)).toEqual([]);
   });
 
-  it("creates a new group and puts the contact into it", async () => {
+  it("creates a new group owned by the user and puts the contact into it", async () => {
     const result = await createContactFromForm(
+      me.id,
       form({ name: "Анна", newGroup: "  Семья  " })
     );
 
     if (!result.ok) throw new Error(result.error);
     expect(await allGroupNames()).toEqual(["Семья"]);
     expect(await groupNamesOf(result.contactId)).toEqual(["Семья"]);
+    const [group] = await db.select().from(groups);
+    expect(group.userId).toBe(me.id);
+  });
+
+  it("creates its own group even when another user has one with that name", async () => {
+    await addGroup(other.id, "Теннис");
+
+    const result = await createContactFromForm(
+      me.id,
+      form({ name: "Анна", newGroup: "теннис" })
+    );
+
+    if (!result.ok) throw new Error(result.error);
+    expect(await allGroupNames()).toEqual(["Теннис", "теннис"]);
+    expect(await groupNamesOf(result.contactId)).toEqual(["теннис"]);
+  });
+
+  it("does not put the contact into another user's group", async () => {
+    const theirs = await addGroup(other.id, "Теннис");
+
+    const result = await createContactFromForm(
+      me.id,
+      form({ name: "Анна", groupIds: [String(theirs.id)] })
+    );
+
+    if (!result.ok) throw new Error(result.error);
+    expect(await groupNamesOf(result.contactId)).toEqual([]);
   });
 
   it("combines a checked group with a new one", async () => {
-    const friends = await addGroup("Друзья");
+    const friends = await addGroup(me.id, "Друзья");
 
     const result = await createContactFromForm(
+      me.id,
       form({
         name: "Анна",
         groupIds: [String(friends.id)],
@@ -107,9 +147,10 @@ describe("createContactFromForm", () => {
   });
 
   it("does not duplicate a group that is both checked and typed as new", async () => {
-    const tennis = await addGroup("Теннис");
+    const tennis = await addGroup(me.id, "Теннис");
 
     const result = await createContactFromForm(
+      me.id,
       form({ name: "Борис", groupIds: [String(tennis.id)], newGroup: "теннис" })
     );
 
@@ -120,6 +161,7 @@ describe("createContactFromForm", () => {
 
   it("creates neither the contact nor the group when the name is empty", async () => {
     const result = await createContactFromForm(
+      me.id,
       form({ name: "   ", newGroup: "Аналитики" })
     );
 
@@ -130,6 +172,7 @@ describe("createContactFromForm", () => {
 
   it("creates nothing when the frequency is unknown", async () => {
     const result = await createContactFromForm(
+      me.id,
       form({ name: "Анна", contactFrequency: "daily", newGroup: "Аналитики" })
     );
 
@@ -141,10 +184,11 @@ describe("createContactFromForm", () => {
 
 describe("updateContactFromForm", () => {
   it("puts the contact into the existing group when the new name differs only in case", async () => {
-    await addGroup("Теннис");
-    const contact = await addContact("Борис");
+    await addGroup(me.id, "Теннис");
+    const contact = await addContact(me.id, "Борис");
 
     const result = await updateContactFromForm(
+      me.id,
       form({ id: String(contact.id), name: "Борис", newGroup: "теннис" })
     );
 
@@ -154,12 +198,13 @@ describe("updateContactFromForm", () => {
   });
 
   it("removes the contact from an unchecked group and keeps the group", async () => {
-    const friends = await addGroup("Друзья");
-    const tennis = await addGroup("Теннис");
-    const contact = await addContact("Вера");
-    await setContactGroups(contact.id, [friends.id, tennis.id]);
+    const friends = await addGroup(me.id, "Друзья");
+    const tennis = await addGroup(me.id, "Теннис");
+    const contact = await addContact(me.id, "Вера");
+    await setContactGroups(me.id, contact.id, [friends.id, tennis.id]);
 
     await updateContactFromForm(
+      me.id,
       form({
         id: String(contact.id),
         name: "Вера",
@@ -172,9 +217,10 @@ describe("updateContactFromForm", () => {
   });
 
   it("updates the contact fields", async () => {
-    const contact = await addContact("Вера");
+    const contact = await addContact(me.id, "Вера");
 
     await updateContactFromForm(
+      me.id,
       form({ id: String(contact.id), name: "Вера Орлова", phone: "+7 900" })
     );
 
@@ -185,9 +231,10 @@ describe("updateContactFromForm", () => {
   });
 
   it("changes nothing when the name is empty", async () => {
-    const contact = await addContact("Вера");
+    const contact = await addContact(me.id, "Вера");
 
     const result = await updateContactFromForm(
+      me.id,
       form({ id: String(contact.id), name: "", newGroup: "Аналитики" })
     );
 
@@ -198,10 +245,27 @@ describe("updateContactFromForm", () => {
 
   it("reports a missing contact and creates no group", async () => {
     const result = await updateContactFromForm(
+      me.id,
       form({ id: "999", name: "Вера", newGroup: "Аналитики" })
     );
 
     expect(result).toEqual({ ok: false, error: "Контакт не найден" });
     expect(await db.$count(groups)).toBe(0);
+  });
+
+  it("treats another user's contact as missing and changes nothing", async () => {
+    const theirs = await addContact(other.id, "Борис");
+    const family = await addGroup(other.id, "Семья");
+    await setContactGroups(other.id, theirs.id, [family.id]);
+
+    const result = await updateContactFromForm(
+      me.id,
+      form({ id: String(theirs.id), name: "Взломан", newGroup: "Аналитики" })
+    );
+
+    expect(result).toEqual({ ok: false, error: "Контакт не найден" });
+    expect((await contactRow(theirs.id)).name).toBe("Борис");
+    expect(await groupNamesOf(theirs.id)).toEqual(["Семья"]);
+    expect(await allGroupNames()).toEqual(["Семья"]);
   });
 });

@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 import { db, type Executor } from "@/db";
 import { contacts } from "@/db/schema";
@@ -11,7 +11,8 @@ import {
 } from "@/lib/contact-frequency";
 
 // Saving the "add contact" / "edit contact" forms: the contact itself, its
-// checked groups and an optional new group, all in one transaction.
+// checked groups and an optional new group, all in one transaction. A user
+// creates and changes only their own contacts and groups.
 
 export type ContactFormResult =
   { ok: true; contactId: number } | { ok: false; error: string };
@@ -63,18 +64,20 @@ function parseContactForm(
 
 async function saveGroups(
   tx: Executor,
+  userId: string,
   contactId: number,
   form: ContactForm
 ): Promise<void> {
   const groupIds = new Set(form.groupIds);
   if (form.newGroupName) {
-    const group = await findOrCreateGroup(form.newGroupName, tx);
+    const group = await findOrCreateGroup(userId, form.newGroupName, tx);
     groupIds.add(group.id);
   }
-  await setContactGroups(contactId, [...groupIds], tx);
+  await setContactGroups(userId, contactId, [...groupIds], tx);
 }
 
 export async function createContactFromForm(
+  userId: string,
   formData: FormData,
   executor: Executor = db
 ): Promise<ContactFormResult> {
@@ -85,14 +88,16 @@ export async function createContactFromForm(
   return executor.transaction(async (tx) => {
     const [row] = await tx
       .insert(contacts)
-      .values(form.fields)
+      .values({ ...form.fields, userId })
       .returning({ id: contacts.id });
-    await saveGroups(tx, row.id, form);
+    await saveGroups(tx, userId, row.id, form);
     return { ok: true, contactId: row.id };
   });
 }
 
+// Another user's contact is reported as missing and left untouched.
 export async function updateContactFromForm(
+  userId: string,
   formData: FormData,
   executor: Executor = db
 ): Promise<ContactFormResult> {
@@ -106,10 +111,10 @@ export async function updateContactFromForm(
     const updated = await tx
       .update(contacts)
       .set({ ...form.fields, updatedAt: new Date() })
-      .where(eq(contacts.id, id))
+      .where(and(eq(contacts.id, id), eq(contacts.userId, userId)))
       .returning({ id: contacts.id });
     if (updated.length === 0) return { ok: false, error: CONTACT_NOT_FOUND };
-    await saveGroups(tx, id, form);
+    await saveGroups(tx, userId, id, form);
     return { ok: true, contactId: id };
   });
 }

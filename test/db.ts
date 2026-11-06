@@ -1,7 +1,8 @@
+import { randomUUID } from "node:crypto";
 import { asc, eq, sql } from "drizzle-orm";
 
 import { db } from "@/db";
-import { contactGroups, contacts, groups } from "@/db/schema";
+import { contactGroups, contacts, groups, user } from "@/db/schema";
 
 import { assertTestDatabase } from "./database-url";
 
@@ -23,13 +24,22 @@ export async function resetDatabase(): Promise<void> {
   await db.execute(sql`truncate table ${list} restart identity cascade`);
 }
 
-export async function addContact(name: string) {
-  const [row] = await db.insert(contacts).values({ name }).returning();
+// A signed-up user, as Better Auth creates one on the first sign-in.
+export async function addUser(email: string = "owner@example.com") {
+  const [row] = await db
+    .insert(user)
+    .values({ id: randomUUID(), name: "", email, emailVerified: true })
+    .returning();
   return row;
 }
 
-export async function addGroup(name: string) {
-  const [row] = await db.insert(groups).values({ name }).returning();
+export async function addContact(userId: string, name: string) {
+  const [row] = await db.insert(contacts).values({ userId, name }).returning();
+  return row;
+}
+
+export async function addGroup(userId: string, name: string) {
+  const [row] = await db.insert(groups).values({ userId, name }).returning();
   return row;
 }
 
