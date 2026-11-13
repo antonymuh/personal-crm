@@ -1,0 +1,33 @@
+name: Set up SSH to the server
+description: Writes the deploy key and makes the server reachable as "ssh deploy-target".
+
+inputs:
+  host:
+    description: Server address
+    required: true
+  user:
+    description: User on the server
+    required: true
+  ssh-key:
+    description: Private deploy key
+    required: true
+  known-hosts:
+    description: The server's host key line for known_hosts
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        HOST: ${{ inputs.host }}
+        USER_NAME: ${{ inputs.user }}
+        SSH_KEY: ${{ inputs.ssh-key }}
+        KNOWN_HOSTS: ${{ inputs.known-hosts }}
+      run: |
+        install -m 700 -d ~/.ssh
+        printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+        printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+        printf 'Host deploy-target\n  HostName %s\n  User %s\n  IdentityFile ~/.ssh/deploy_key\n  IdentitiesOnly yes\n' \
+          "$HOST" "$USER_NAME" > ~/.ssh/config

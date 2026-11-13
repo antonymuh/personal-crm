@@ -34,7 +34,8 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  # Every merge goes to the test environment first.
+  # Every merge goes to the test environment. Production is deployed only by hand,
+  # with the Deploy prod workflow (deploy-prod.yml).
   staging:
     needs: build
     uses: ./.github/workflows/deploy-server.yml
@@ -44,18 +45,5 @@ jobs:
     with:
       environment: staging
       url: https://test-app.pocketcrm.co
-      sha: ${{ github.sha }}
-    secrets: inherit
-
-  # Production still deploys on every merge, independently of staging.
-  prod:
-    needs: build
-    uses: ./.github/workflows/deploy-server.yml
-    permissions:
-      contents: read
-      packages: read
-    with:
-      environment: prod
-      url: https://app.pocketcrm.co
       sha: ${{ github.sha }}
     secrets: inherit
