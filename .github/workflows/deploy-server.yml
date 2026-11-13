@@ -1,0 +1,72 @@
+name: Deploy to server
+
+# Deploys one image version to one environment on the server: copies deploy/
+# to /opt/crm/<environment> and runs deploy.sh there. Called by other workflows.
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: prod or staging
+        required: true
+        type: string
+      url:
+        description: Public address of the environment
+        required: true
+        type: string
+      sha:
+        description: Commit SHA, the image tag
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    # Skipped until the server is configured (repository variable DEPLOY_HOST).
+    if: vars.DEPLOY_HOST != ''
+    runs-on: ubuntu-latest
+    # Deploys to one environment go one at a time; deploys to different environments are independent.
+    concurrency:
+      group: deploy-${{ inputs.environment }}
+      cancel-in-progress: false
+    # Recorded as a GitHub deployment: the history of what ran in each environment.
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.url }}
+    permissions:
+      contents: read
+      packages: read
+    env:
+      DEPLOY_DIR: /opt/crm/${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          printf 'Host deploy-target\n  HostName %s\n  User %s\n  IdentityFile ~/.ssh/deploy_key\n  IdentitiesOnly yes\n' \
+            "${{ vars.DEPLOY_HOST }}" "${{ vars.DEPLOY_USER }}" > ~/.ssh/config
+
+      # The whole deploy/ folder, so new scripts arrive on their own. The server's .env,
+      # backups and version files are not in the repo and stay untouched.
+      - name: Copy deploy scripts
+        run: tar -C deploy -cf - . | ssh deploy-target "mkdir -p $DEPLOY_DIR && tar -C $DEPLOY_DIR -xf - --no-overwrite-dir"
+
+      # Each environment keeps its own registry login, so parallel deploys
+      # of prod and staging never log each other out.
+      - name: Log in to GHCR on the server
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | ssh deploy-target "DOCKER_CONFIG=$DEPLOY_DIR/.docker docker login ghcr.io -u ${{ github.actor }} --password-stdin"
+
+      - name: Deploy
+        run: ssh deploy-target "DOCKER_CONFIG=$DEPLOY_DIR/.docker bash $DEPLOY_DIR/deploy.sh ${{ inputs.environment }} ${{ inputs.sha }}"
+
+      - name: Log out of GHCR on the server
+        if: always()
+        run: ssh deploy-target "DOCKER_CONFIG=$DEPLOY_DIR/.docker docker logout ghcr.io" || true
+
+      - name: Public smoke test
+        run: curl -fsS --retry 5 --retry-delay 3 --retry-all-errors "${{ inputs.url }}/health"

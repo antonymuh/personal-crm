@@ -1,5 +1,7 @@
-# Production stack on the server. Lives in /opt/crm/prod next to its .env.
-# Always run through deploy.sh, which uses: docker compose -p prod -f compose.yaml
+# The app stack on the server, the same file for prod and staging.
+# Lives in /opt/crm/<env> next to that environment's .env.
+# Always run through the deploy scripts: docker compose -p <env> -f compose.yaml,
+# with APP_PORT set by lib.sh (prod 3000, staging 3001).
 
 x-logging: &logging
   driver: json-file
@@ -13,6 +15,8 @@ services:
   db:
     image: postgres:17-alpine
     restart: unless-stopped
+    # Two environments share one server: neither may take all its memory.
+    mem_limit: 512m
     environment:
       POSTGRES_USER: crm
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
@@ -30,6 +34,7 @@ services:
   migrate:
     image: *app-image
     profiles: ["migrate"]
+    mem_limit: 512m
     env_file: .env
     command: ["node", "migrator/migrate.mjs"]
     depends_on:
@@ -41,10 +46,11 @@ services:
   app:
     image: *app-image
     restart: unless-stopped
+    mem_limit: 512m
     env_file: .env
     # Only reachable from the server itself; nginx proxies the public traffic.
     ports:
-      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:${APP_PORT:?APP_PORT is not set}:3000"
     depends_on:
       db:
         condition: service_healthy

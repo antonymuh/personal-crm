@@ -5,11 +5,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Never run two deploys at the same time.
-concurrency:
-  group: deploy-prod
-  cancel-in-progress: false
-
 env:
   IMAGE: ghcr.io/antonymuh/personal-crm
 
@@ -39,47 +34,28 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  deploy:
+  # Every merge goes to the test environment first.
+  staging:
     needs: build
-    # Skipped until the server is configured (repository variable DEPLOY_HOST).
-    if: vars.DEPLOY_HOST != ''
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/deploy-server.yml
     permissions:
       contents: read
       packages: read
-    env:
-      SSH_TARGET: ${{ vars.DEPLOY_USER }}@${{ vars.DEPLOY_HOST }}
-      DEPLOY_DIR: /opt/crm/prod
-    steps:
-      - uses: actions/checkout@v7
+    with:
+      environment: staging
+      url: https://test-app.pocketcrm.co
+      sha: ${{ github.sha }}
+    secrets: inherit
 
-      - name: Set up SSH
-        env:
-          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
-        run: |
-          install -m 700 -d ~/.ssh
-          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          printf 'Host deploy-target\n  HostName %s\n  User %s\n  IdentityFile ~/.ssh/deploy_key\n  IdentitiesOnly yes\n' \
-            "${{ vars.DEPLOY_HOST }}" "${{ vars.DEPLOY_USER }}" > ~/.ssh/config
-
-      # The whole deploy/ folder, so new scripts arrive on their own. The server's .env,
-      # backups and version files are not in the repo and stay untouched.
-      - name: Copy deploy scripts
-        run: tar -C deploy -cf - . | ssh deploy-target "tar -C $DEPLOY_DIR -xf - --no-overwrite-dir"
-
-      - name: Log in to GHCR on the server
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | ssh deploy-target "docker login ghcr.io -u ${{ github.actor }} --password-stdin"
-
-      - name: Deploy
-        run: ssh deploy-target "bash $DEPLOY_DIR/deploy.sh ${{ github.sha }}"
-
-      - name: Log out of GHCR on the server
-        if: always()
-        run: ssh deploy-target "docker logout ghcr.io" || true
-
-      - name: Public smoke test
-        if: vars.APP_URL != ''
-        run: curl -fsS --retry 5 --retry-delay 3 --retry-all-errors "${{ vars.APP_URL }}/health"
+  # Production still deploys on every merge, independently of staging.
+  prod:
+    needs: build
+    uses: ./.github/workflows/deploy-server.yml
+    permissions:
+      contents: read
+      packages: read
+    with:
+      environment: prod
+      url: https://app.pocketcrm.co
+      sha: ${{ github.sha }}
+    secrets: inherit
