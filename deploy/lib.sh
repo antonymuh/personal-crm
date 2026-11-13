@@ -6,6 +6,10 @@ IMAGE="ghcr.io/antonymuh/personal-crm"
 DB_USER="crm"
 DB_NAME="personal_crm"
 BACKUP_DIR="backups"
+# How many backups of each kind (daily, before a deploy) to keep.
+BACKUPS_TO_KEEP=7
+# Images older than this are removed from the server after a prod deploy.
+IMAGE_MAX_AGE_DAYS=14
 
 # Picks the environment: its docker compose project and the local port of its app.
 # Refuses to run from another environment's directory, so prod and staging never mix.
@@ -81,15 +85,50 @@ smoke_health() {
   return 1
 }
 
-# Removes app images that no environment on this server runs or keeps for a rollback
-# (the current and previous versions of prod and of staging).
-remove_unused_images() {
-  local keep
-  keep="$(cat ../*/.current-tag ../*/.previous-tag 2>/dev/null || true)"
+# Keeps the newest $BACKUPS_TO_KEEP backups of each kind: daily ones and the ones taken before a deploy.
+# Copies taken by restore.sh (before-restore-*) are never removed automatically.
+prune_backups() {
+  local pattern
+  for pattern in '_daily\.dump$' '_before-([0-9a-f]{7}|none)\.dump$'; do
+    # Names start with the UTC time, so sorting by name puts the newest first.
+    ls -1 "$BACKUP_DIR" | { grep -E -- "$pattern" || true; } | sort -r | tail -n "+$((BACKUPS_TO_KEEP + 1))" |
+      while read -r f; do
+        rm -f -- "${BACKUP_DIR:?}/$f"
+        echo "Removed old backup: $f" >&2
+      done
+  done
+}
+
+# Removes app images older than $IMAGE_MAX_AGE_DAYS days, except the two latest prod versions
+# (current and previous, needed for a rollback) and the current staging version.
+remove_old_images() {
+  local keep cutoff t created
+  keep="$(cat ../prod/.current-tag ../prod/.previous-tag ../staging/.current-tag 2>/dev/null || true)"
+  cutoff="$(date -u -d "$IMAGE_MAX_AGE_DAYS days ago" +%s)"
   docker images "$IMAGE" --format '{{.Tag}}' | while read -r t; do
-    if ! grep -qxF -- "$t" <<< "$keep"; then
-      docker rmi "$IMAGE:$t" >/dev/null || true
+    if [ "$t" = "<none>" ] || grep -qxF -- "$t" <<< "$keep"; then
+      continue
+    fi
+    created="$(date -u -d "$(docker image inspect -f '{{.Created}}' "$IMAGE:$t")" +%s)"
+    if [ "$created" -lt "$cutoff" ]; then
+      docker rmi "$IMAGE:$t" >/dev/null && echo "Removed image $t" || true
     fi
   done
   docker image prune -f >/dev/null
+}
+
+# Installs or updates the systemd timer that backs up the prod database every day.
+# The unit files live in deploy/systemd; nothing is touched when they have not changed.
+install_backup_timer() {
+  local unit changed=0
+  for unit in systemd/crm-prod-backup.service systemd/crm-prod-backup.timer; do
+    if ! cmp -s "$unit" "/etc/systemd/system/$(basename "$unit")"; then
+      sudo -n install -m 644 "$unit" /etc/systemd/system/
+      changed=1
+    fi
+  done
+  if [ "$changed" = 1 ]; then
+    sudo -n systemctl daemon-reload
+  fi
+  sudo -n systemctl enable --now crm-prod-backup.timer
 }

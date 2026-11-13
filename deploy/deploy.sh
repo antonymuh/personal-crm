@@ -2,6 +2,7 @@
 # Deploys one image version of the app to one environment on the server.
 # Usage: ./deploy.sh <prod|staging> <image-tag>   (the tag is the git commit SHA)
 # Order: pull -> database backup (prod only) -> migrations -> new app -> smoke /health.
+# After a successful prod deploy: old images are removed, the daily backup timer is installed.
 # No automatic rollback.
 set -euo pipefail
 
@@ -28,8 +29,13 @@ chmod 600 .env
 export IMAGE_TAG="$TAG"
 
 echo "==> Deploying $TAG to $ENV_NAME"
-echo "==> Pulling $IMAGE:$TAG"
-docker pull "$IMAGE:$TAG"
+# An image already on the server is used as is: a rollback works even after GHCR has dropped it.
+if docker image inspect "$IMAGE:$TAG" >/dev/null 2>&1; then
+  echo "==> Image $IMAGE:$TAG is already on the server"
+else
+  echo "==> Pulling $IMAGE:$TAG"
+  docker pull "$IMAGE:$TAG"
+fi
 
 echo "==> Starting database"
 compose up -d --wait db
@@ -44,6 +50,7 @@ if [ "$ENV_NAME" = "prod" ]; then
     echo "ERROR: database backup failed, the running app version was left untouched" >&2
     exit 1
   fi
+  prune_backups
 fi
 
 echo "==> Applying migrations"
@@ -65,7 +72,11 @@ if [ -n "$current" ] && [ "$current" != "$TAG" ]; then
 fi
 echo "$TAG" > .current-tag
 
-echo "==> Removing app images no environment uses"
-remove_unused_images
+if [ "$ENV_NAME" = "prod" ]; then
+  echo "==> Removing old app images"
+  remove_old_images
+  echo "==> Installing the daily backup timer"
+  install_backup_timer
+fi
 
 echo "==> Deployed $TAG to $ENV_NAME"

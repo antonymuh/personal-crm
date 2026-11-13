@@ -1,0 +1,12 @@
+# Backs up the prod database once; started by crm-prod-backup.timer.
+# Installed by deploy.sh prod from deploy/systemd. Output goes to the journal:
+#   journalctl -u crm-prod-backup
+[Unit]
+Description=PocketCRM: daily backup of the prod database
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+User=crmapp
+ExecStart=/opt/crm/prod/backup.sh
