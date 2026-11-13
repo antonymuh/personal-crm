@@ -11,6 +11,8 @@ FILE="$(realpath -e -- "$ARG")" || { echo "ERROR: backup file not found: $ARG" >
 
 cd "$(dirname "$0")"
 source ./lib.sh
+# Production only; the staging database is recreated with refresh-staging.sh.
+use_env prod
 
 TAG="$(cat .current-tag 2>/dev/null || true)"
 if [ -z "$TAG" ]; then
@@ -44,22 +46,12 @@ safety="$(backup_database "before-restore-${TAG:0:7}")"
 echo "==> Stopping the app"
 compose stop app
 
-fail() {
-  echo "ERROR: $1" >&2
+if ! load_backup "$FILE"; then
+  echo "ERROR: the database could not be restored, it may be incomplete" >&2
   echo "The app is stopped. The database as it was before restore: $(pwd)/$safety" >&2
   echo "To bring it back: ./restore.sh $safety" >&2
   exit 1
-}
-
-echo "==> Recreating database $DB_NAME"
-compose exec -T db psql -U "$DB_USER" -d postgres -v ON_ERROR_STOP=1 \
-  -c "DROP DATABASE IF EXISTS $DB_NAME WITH (FORCE)" \
-  -c "CREATE DATABASE $DB_NAME OWNER $DB_USER" ||
-  fail "could not recreate the database"
-
-echo "==> Loading the backup"
-compose exec -T db pg_restore -U "$DB_USER" -d "$DB_NAME" --no-owner --exit-on-error < "$FILE" ||
-  fail "pg_restore failed, the database is incomplete"
+fi
 
 echo "==> Starting app $TAG"
 compose up -d app
