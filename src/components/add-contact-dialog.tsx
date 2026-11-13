@@ -16,7 +16,13 @@ import {
 } from "@/components/ui/dialog";
 import { ContactFields, type GroupOption } from "@/components/contact-fields";
 
-export function AddContactDialog({ groups }: { groups: GroupOption[] }) {
+export function AddContactDialog({
+  groups,
+  today,
+}: {
+  groups: GroupOption[];
+  today: string;
+}) {
   const [open, setOpen] = useState(false);
   const [state, formAction, pending] = useActionState<
     ActionResult | null,
@@ -44,7 +50,7 @@ export function AddContactDialog({ groups }: { groups: GroupOption[] }) {
           </DialogDescription>
         </DialogHeader>
         <form action={formAction} className="grid gap-4">
-          <ContactFields groups={groups} />
+          <ContactFields groups={groups} today={today} />
           {state?.error && (
             <p className="text-sm text-destructive">{state.error}</p>
           )}

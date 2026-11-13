@@ -1,5 +1,7 @@
 import type { Page } from "@playwright/test";
 
+import { birthDateFor } from "./dates";
+import { withE2eDatabase } from "./database";
 import { expect, signIn, test } from "./fixtures";
 
 // The success criterion from specs/02-пользователи-вход.md and the scenarios
@@ -92,4 +94,37 @@ test("groups with the same name stay separate; A's group in B's address means «
   await a.goto("/");
   await expect(filter(a).getByRole("link")).toHaveText(["Все", "Теннис"]);
   await expect(a.getByText("Дина")).toBeHidden();
+});
+
+test("B's home page has no block with A's birthday", async ({
+  page: a,
+  browser,
+}) => {
+  await signIn(a, "a@example.com");
+  await withE2eDatabase(
+    (sql) => sql`
+      insert into contacts (user_id, name, birth_date)
+      select id, 'Именинник A', ${birthDateFor(1, 28)}
+      from "user" where email = 'a@example.com'`
+  );
+  await a.goto("/");
+  await expect(
+    a
+      .getByRole("region", { name: "Скоро день рождения" })
+      .getByText("Именинник A")
+  ).toBeVisible();
+
+  const context = await browser.newContext();
+  try {
+    const b = await context.newPage();
+    await signIn(b, "b@example.com");
+
+    await expect(b.getByText("Всего контактов: 0")).toBeVisible();
+    await expect(
+      b.getByRole("heading", { name: "Скоро день рождения" })
+    ).toBeHidden();
+    await expect(b.getByText("Именинник A")).toBeHidden();
+  } finally {
+    await context.close();
+  }
 });

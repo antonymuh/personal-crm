@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { EARLIEST_BIRTH_DATE } from "@/lib/birthdays";
 import {
   CONTACT_FREQUENCIES,
   NO_FREQUENCY_LABEL,
@@ -10,6 +11,7 @@ type Defaults = {
   howWeMet?: string | null;
   phone?: string | null;
   email?: string | null;
+  birthDate?: string | null;
   contactFrequency?: string | null;
   groupIds?: number[];
 };
@@ -19,9 +21,12 @@ export type GroupOption = { id: number; name: string };
 export function ContactFields({
   defaults,
   groups = [],
+  today,
 }: {
   defaults?: Defaults;
   groups?: GroupOption[];
+  // "YYYY-MM-DD", the latest date the calendar offers; the server checks again.
+  today: string;
 }) {
   const checked = new Set(defaults?.groupIds ?? []);
   return (
@@ -67,6 +72,18 @@ export function ContactFields({
           defaultValue={defaults?.email ?? ""}
           placeholder="ivan@example.com"
           autoComplete="off"
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="birthDate">Дата рождения</Label>
+        <Input
+          id="birthDate"
+          name="birthDate"
+          type="date"
+          min={EARLIEST_BIRTH_DATE}
+          max={today}
+          defaultValue={defaults?.birthDate ?? ""}
+          className="min-w-0"
         />
       </div>
       <div className="grid gap-2">

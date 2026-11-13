@@ -3,12 +3,14 @@ import { and, eq } from "drizzle-orm";
 import { db, type Executor } from "@/db";
 import { contacts } from "@/db/schema";
 import { findOrCreateGroup, setContactGroups } from "@/db/groups";
+import { parseBirthDate } from "@/lib/birthdays";
 import { clean } from "@/lib/form";
 import { cleanGroupName, parseGroupIds } from "@/lib/groups";
 import {
   isContactFrequency,
   type ContactFrequency,
 } from "@/lib/contact-frequency";
+import { moscowToday } from "@/lib/today";
 
 // Saving the "add contact" / "edit contact" forms: the contact itself, its
 // checked groups and an optional new group, all in one transaction. A user
@@ -27,6 +29,7 @@ type ContactForm = {
     howWeMet: string | null;
     phone: string | null;
     email: string | null;
+    birthDate: string | null;
     contactFrequency: ContactFrequency | null;
   };
   groupIds: number[];
@@ -35,7 +38,8 @@ type ContactForm = {
 
 // Everything is checked before the transaction, so a form error writes nothing.
 function parseContactForm(
-  formData: FormData
+  formData: FormData,
+  today: string
 ): { ok: true; form: ContactForm } | { ok: false; error: string } {
   const name = clean(formData.get("name"));
   if (!name) return { ok: false, error: NAME_REQUIRED };
@@ -46,6 +50,10 @@ function parseContactForm(
     return { ok: false, error: UNKNOWN_FREQUENCY };
   }
 
+  // Empty means "not set"; anything else must be a real date, not in the future.
+  const birthDate = parseBirthDate(formData.get("birthDate"), today);
+  if (!birthDate.ok) return birthDate;
+
   return {
     ok: true,
     form: {
@@ -54,6 +62,7 @@ function parseContactForm(
         howWeMet: clean(formData.get("howWeMet")),
         phone: clean(formData.get("phone")),
         email: clean(formData.get("email")),
+        birthDate: birthDate.date,
         contactFrequency: frequency,
       },
       groupIds: parseGroupIds(formData.getAll("groupIds")),
@@ -79,9 +88,10 @@ async function saveGroups(
 export async function createContactFromForm(
   userId: string,
   formData: FormData,
-  executor: Executor = db
+  executor: Executor = db,
+  today: string = moscowToday()
 ): Promise<ContactFormResult> {
-  const parsed = parseContactForm(formData);
+  const parsed = parseContactForm(formData, today);
   if (!parsed.ok) return parsed;
   const { form } = parsed;
 
@@ -99,11 +109,12 @@ export async function createContactFromForm(
 export async function updateContactFromForm(
   userId: string,
   formData: FormData,
-  executor: Executor = db
+  executor: Executor = db,
+  today: string = moscowToday()
 ): Promise<ContactFormResult> {
   const id = Number(formData.get("id"));
   if (!Number.isInteger(id)) return { ok: false, error: CONTACT_NOT_FOUND };
-  const parsed = parseContactForm(formData);
+  const parsed = parseContactForm(formData, today);
   if (!parsed.ok) return parsed;
   const { form } = parsed;
 

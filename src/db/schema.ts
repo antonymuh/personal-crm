@@ -4,6 +4,7 @@ import {
   integer,
   text,
   timestamp,
+  date,
   boolean,
   index,
   uniqueIndex,
@@ -132,6 +133,8 @@ export const contacts = pgTable(
     howWeMet: text("how_we_met"),
     phone: text("phone"),
     email: text("email"),
+    // Day of birth as "YYYY-MM-DD" (no time, no time zone); NULL means "not set".
+    birthDate: date("birth_date", { mode: "string" }),
     // How often I want to be in touch; NULL means "not set".
     // Allowed values live in src/db/keep-in-touch.ts.
     contactFrequency: text("contact_frequency"),

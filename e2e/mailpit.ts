@@ -28,6 +28,12 @@ export async function clearInbox(): Promise<void> {
   await api("/messages", { method: "DELETE" });
 }
 
+// How many emails are in the inbox, whoever they are for.
+export async function countAllEmails(): Promise<number> {
+  const { total } = await api<{ total: number }>("/messages?limit=1");
+  return total;
+}
+
 // All emails to the address, newest first.
 export async function emailsTo(address: string): Promise<Email[]> {
   const query = encodeURIComponent(`to:"${address}"`);

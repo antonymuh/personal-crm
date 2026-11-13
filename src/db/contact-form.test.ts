@@ -180,6 +180,59 @@ describe("createContactFromForm", () => {
     expect(await db.$count(contacts)).toBe(0);
     expect(await db.$count(groups)).toBe(0);
   });
+
+  describe("birth date", () => {
+    const TODAY = "2026-11-13";
+
+    it("saves the birth date", async () => {
+      const result = await createContactFromForm(
+        me.id,
+        form({ name: "Анна", birthDate: "1990-11-15" }),
+        db,
+        TODAY
+      );
+
+      if (!result.ok) throw new Error(result.error);
+      expect((await contactRow(result.contactId)).birthDate).toBe("1990-11-15");
+    });
+
+    it("saves no birth date when the field is not filled", async () => {
+      const result = await createContactFromForm(
+        me.id,
+        form({ name: "Анна", birthDate: "" }),
+        db,
+        TODAY
+      );
+      const withoutField = await createContactFromForm(
+        me.id,
+        form({ name: "Борис" }),
+        db,
+        TODAY
+      );
+
+      if (!result.ok || !withoutField.ok) throw new Error("not saved");
+      expect((await contactRow(result.contactId)).birthDate).toBeNull();
+      expect((await contactRow(withoutField.contactId)).birthDate).toBeNull();
+    });
+
+    it.each([
+      ["2026-11-14", "Дата рождения не может быть в будущем"],
+      ["2026-02-31", "Некорректная дата рождения"],
+      ["1899-12-31", "Некорректная дата рождения"],
+      ["abc", "Некорректная дата рождения"],
+    ])("creates nothing for %s", async (birthDate, error) => {
+      const result = await createContactFromForm(
+        me.id,
+        form({ name: "Анна", birthDate, newGroup: "Аналитики" }),
+        db,
+        TODAY
+      );
+
+      expect(result).toEqual({ ok: false, error });
+      expect(await db.$count(contacts)).toBe(0);
+      expect(await db.$count(groups)).toBe(0);
+    });
+  });
 });
 
 describe("updateContactFromForm", () => {
@@ -267,5 +320,91 @@ describe("updateContactFromForm", () => {
     expect((await contactRow(theirs.id)).name).toBe("Борис");
     expect(await groupNamesOf(theirs.id)).toEqual(["Семья"]);
     expect(await allGroupNames()).toEqual(["Семья"]);
+  });
+
+  describe("birth date", () => {
+    const TODAY = "2026-11-13";
+
+    async function addContactBorn(birthDate: string | null, name = "Вера") {
+      const contact = await addContact(me.id, name);
+      await db
+        .update(contacts)
+        .set({ birthDate })
+        .where(eq(contacts.id, contact.id));
+      return contact;
+    }
+
+    it("changes the birth date", async () => {
+      const contact = await addContactBorn("1990-11-15");
+
+      const result = await updateContactFromForm(
+        me.id,
+        form({ id: String(contact.id), name: "Вера", birthDate: "1985-03-03" }),
+        db,
+        TODAY
+      );
+
+      expect(result).toEqual({ ok: true, contactId: contact.id });
+      expect((await contactRow(contact.id)).birthDate).toBe("1985-03-03");
+    });
+
+    it("erases the birth date when the field is empty", async () => {
+      const contact = await addContactBorn("1990-11-15");
+
+      await updateContactFromForm(
+        me.id,
+        form({ id: String(contact.id), name: "Вера", birthDate: "" }),
+        db,
+        TODAY
+      );
+
+      expect((await contactRow(contact.id)).birthDate).toBeNull();
+    });
+
+    it("changes nothing when the new name comes with a date in the future", async () => {
+      const contact = await addContactBorn("1990-11-15");
+
+      const result = await updateContactFromForm(
+        me.id,
+        form({
+          id: String(contact.id),
+          name: "Новое имя",
+          birthDate: "2026-11-14",
+          newGroup: "Аналитики",
+        }),
+        db,
+        TODAY
+      );
+
+      expect(result).toEqual({
+        ok: false,
+        error: "Дата рождения не может быть в будущем",
+      });
+      expect(await contactRow(contact.id)).toMatchObject({
+        name: "Вера",
+        birthDate: "1990-11-15",
+      });
+      expect(await db.$count(groups)).toBe(0);
+    });
+
+    it.each([["2026-02-31"], ["1899-12-31"]])(
+      "keeps the old date for %s",
+      async (birthDate) => {
+        const contact = await addContactBorn("1990-11-15");
+
+        const result = await updateContactFromForm(
+          me.id,
+          form({ id: String(contact.id), name: "Вера", birthDate }),
+          db,
+          TODAY
+        );
+
+        expect(result).toEqual({
+          ok: false,
+          error: "Некорректная дата рождения",
+        });
+        expect((await contactRow(contact.id)).birthDate).toBe("1990-11-15");
+      }
+    );
   });
 });
