@@ -1,6 +1,8 @@
 import type { Locator, Page } from "@playwright/test";
 
-import { expect, signIn, test } from "./fixtures";
+import { birthDateFor } from "./dates";
+import { withE2eDatabase } from "./database";
+import { expect, OWNER, signIn, test } from "./fixtures";
 
 // Without signing in the app shows only the sign-in page.
 test.beforeEach(async ({ page }) => {
@@ -50,5 +52,30 @@ test("the contact card fits a phone screen, delete included", async ({
     confirm.getByRole("button", { name: "Оставлю, пришлю открытку" })
   );
   await expectInsideScreen(confirm.getByRole("button", { name: "Удалить" }));
+  await expectNoSideScroll(page);
+});
+
+test("the birthdays block and the birth date field fit a phone screen", async ({
+  page,
+}) => {
+  await withE2eDatabase(
+    (sql) => sql`
+      insert into contacts (user_id, name, birth_date)
+      select id, 'Очень-Очень-Длинное-Имя-Именинницы Александровна-Петровская',
+        ${birthDateFor(1, 28)}
+      from "user" where email = ${OWNER}`
+  );
+  await page.goto("/");
+
+  const block = page.getByRole("region", { name: "Скоро день рождения" });
+  await expect(block).toBeVisible();
+  await expectInsideScreen(block);
+  await expectNoSideScroll(page);
+
+  await page.getByRole("button", { name: "Добавить контакт" }).click();
+  const form = page.getByRole("dialog", { name: "Новый контакт" });
+  const field = form.getByLabel("Дата рождения");
+  await field.scrollIntoViewIfNeeded();
+  await expectInsideScreen(field);
   await expectNoSideScroll(page);
 });

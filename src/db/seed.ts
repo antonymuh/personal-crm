@@ -6,10 +6,12 @@ import { eq, sql } from "drizzle-orm";
 
 import { contactGroups, contacts, groups, notes, user } from "./schema";
 import { parseEmail } from "../lib/email";
+import { nextBirthday } from "../lib/birthdays";
 import {
   CONTACT_FREQUENCIES,
   type ContactFrequency,
 } from "../lib/contact-frequency";
+import { moscowToday } from "../lib/today";
 
 config({ path: ".env" });
 
@@ -258,6 +260,7 @@ type SeedContact = {
   howWeMet: string | null;
   phone: string | null;
   email: string | null;
+  birthDate: string | null;
   contactFrequency: ContactFrequency | null;
   lastContactedAt: Date | null;
 };
@@ -273,7 +276,52 @@ const frequencyDays: Record<ContactFrequency, number> = {
   year: 365,
 };
 
-function buildContact(index: number): SeedContact {
+// Birthdays of the first contacts fall today and in the coming week, so the
+// "upcoming birthdays" block is never empty after seeding.
+const UPCOMING_BIRTHDAY_OFFSETS = [0, 1, 3, 5, 7];
+// About half of the contacts have a birth date at all.
+const BIRTH_DATE_SHARE = 0.5;
+const BLOCK_WINDOW_DAYS = 7;
+
+function isoDate(year: number, month: number, day: number): string {
+  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}
+
+// A birth date whose birthday is `daysAhead` days after `today`.
+function birthDateInDays(today: string, daysAhead: number): string {
+  const [year, month, day] = today.split("-").map(Number);
+  const target = new Date(Date.UTC(year, month - 1, day + daysAhead));
+  let age = randInt(20, 60);
+  // 29 February stays a real date only in leap years.
+  if (target.getUTCMonth() === 1 && target.getUTCDate() === 29) {
+    age = Math.ceil(age / 4) * 4;
+  }
+  return isoDate(
+    target.getUTCFullYear() - age,
+    target.getUTCMonth() + 1,
+    target.getUTCDate()
+  );
+}
+
+// A random birth date whose birthday is not in the block's window.
+function birthDateOutsideWindow(today: string): string {
+  for (;;) {
+    const month = randInt(1, 12);
+    const day = randInt(1, month === 2 ? 28 : 30);
+    const date = isoDate(randInt(1950, 2005), month, day);
+    if (nextBirthday(date, today).daysUntil > BLOCK_WINDOW_DAYS) return date;
+  }
+}
+
+function buildBirthDate(index: number, today: string): string | null {
+  const offset = UPCOMING_BIRTHDAY_OFFSETS[index - 1];
+  if (offset !== undefined) return birthDateInDays(today, offset);
+  return Math.random() < BIRTH_DATE_SHARE
+    ? birthDateOutsideWindow(today)
+    : null;
+}
+
+function buildContact(index: number, today: string): SeedContact {
   const isMale = Math.random() < 0.5;
   const first = isMale ? pick(maleFirst) : pick(femaleFirst);
   const lastBase = pick(maleLast);
@@ -304,7 +352,15 @@ function buildContact(index: number): SeedContact {
       ? new Date(Date.now() - Math.floor(Math.random() * 2 * periodDays * DAY))
       : null;
 
-  return { name, howWeMet, phone, email, contactFrequency, lastContactedAt };
+  return {
+    name,
+    howWeMet,
+    phone,
+    email,
+    birthDate: buildBirthDate(index, today),
+    contactFrequency,
+    lastContactedAt,
+  };
 }
 
 async function main() {
@@ -364,8 +420,9 @@ async function main() {
   ).map((g) => g.id);
 
   console.log(`Generating ${TOTAL} contacts…`);
+  const today = moscowToday();
   const seedContacts: SeedContact[] = Array.from({ length: TOTAL }, (_, i) =>
-    buildContact(i + 1)
+    buildContact(i + 1, today)
   );
 
   const now = Date.now();

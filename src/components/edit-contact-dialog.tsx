@@ -21,6 +21,7 @@ type Contact = {
   howWeMet: string | null;
   phone: string | null;
   email: string | null;
+  birthDate: string | null;
   contactFrequency: string | null;
 };
 
@@ -28,10 +29,12 @@ export function EditContactDialog({
   contact,
   groups,
   groupIds,
+  today,
 }: {
   contact: Contact;
   groups: GroupOption[];
   groupIds: number[];
+  today: string;
 }) {
   const [open, setOpen] = useState(false);
   const [state, formAction, pending] = useActionState<
@@ -58,7 +61,11 @@ export function EditContactDialog({
         </DialogHeader>
         <form action={formAction} className="grid gap-4">
           <input type="hidden" name="id" value={contact.id} />
-          <ContactFields defaults={{ ...contact, groupIds }} groups={groups} />
+          <ContactFields
+            defaults={{ ...contact, groupIds }}
+            groups={groups}
+            today={today}
+          />
           {state?.error && (
             <p className="text-sm text-destructive">{state.error}</p>
           )}

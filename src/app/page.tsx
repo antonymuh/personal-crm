@@ -1,3 +1,4 @@
+import { listUpcomingBirthdays } from "@/db/birthdays";
 import { listContacts } from "@/db/contact-list";
 import { listGroups } from "@/db/groups";
 import { Card } from "@/components/ui/card";
@@ -6,8 +7,10 @@ import { ChosenGroupProvider } from "@/components/chosen-group";
 import { ContactSearch } from "@/components/contact-search";
 import { AddContactDialog } from "@/components/add-contact-dialog";
 import { GroupFilter } from "@/components/group-filter";
+import { UpcomingBirthdays } from "@/components/upcoming-birthdays";
 import { findSelectedGroup } from "@/lib/groups";
 import { requireUser } from "@/lib/session";
+import { moscowToday } from "@/lib/today";
 
 export const dynamic = "force-dynamic";
 
@@ -39,6 +42,9 @@ export default async function HomePage({
     query,
     groupId: selected?.id ?? null,
   });
+  // The birthdays block never depends on the search or the group filter.
+  const today = moscowToday();
+  const birthdays = await listUpcomingBirthdays(user.id, today);
 
   return (
     <div className="space-y-6">
@@ -51,8 +57,10 @@ export default async function HomePage({
             {countLabel(query, selected !== null, rows.length)}
           </p>
         </div>
-        <AddContactDialog groups={groups} />
+        <AddContactDialog groups={groups} today={today} />
       </div>
+
+      <UpcomingBirthdays items={birthdays} />
 
       <ChosenGroupProvider groupId={selected?.id ?? null}>
         <ContactSearch initialQuery={query} />

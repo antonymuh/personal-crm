@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarClock, Mail, MapPin, Phone } from "lucide-react";
+import {
+  ArrowLeft,
+  Cake,
+  CalendarClock,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
 
 import { getContact, listNotes } from "@/db/contacts";
 import { getContactGroups } from "@/db/contact-list";
@@ -12,9 +19,11 @@ import { AddNoteForm } from "@/components/add-note-form";
 import { MarkContactedButton } from "@/components/mark-contacted-button";
 import { DueBadge } from "@/components/due-badge";
 import { GroupBadges } from "@/components/group-badges";
-import { formatDate, formatDateTime } from "@/lib/format";
+import { ageOn, yearsLabel } from "@/lib/birthdays";
+import { formatBirthDate, formatDate, formatDateTime } from "@/lib/format";
 import { frequencyLabel } from "@/lib/contact-frequency";
 import { requireUser } from "@/lib/session";
+import { moscowToday } from "@/lib/today";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +41,7 @@ export default async function ContactPage({
   const contact = await getContact(user.id, contactId);
   if (!contact) notFound();
 
+  const today = moscowToday();
   const [noteList, contactGroupList, allGroups] = await Promise.all([
     listNotes(user.id, contactId),
     getContactGroups(user.id, contactId),
@@ -67,6 +77,7 @@ export default async function ContactPage({
               contact={contact}
               groups={allGroups}
               groupIds={contactGroupList.map((g) => g.id)}
+              today={today}
             />
             <DeleteContactDialog contact={contact} />
           </div>
@@ -77,6 +88,14 @@ export default async function ContactPage({
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 shrink-0 text-muted-foreground" />
               <span>{contact.howWeMet}</span>
+            </div>
+          )}
+          {contact.birthDate && (
+            <div className="flex items-center gap-2">
+              <Cake className="h-4 w-4 shrink-0 text-muted-foreground" />
+              <span>
+                {`День рождения: ${formatBirthDate(contact.birthDate)} (${yearsLabel(ageOn(contact.birthDate, today))})`}
+              </span>
             </div>
           )}
           {contact.phone && (
@@ -101,11 +120,14 @@ export default async function ContactPage({
               </a>
             </div>
           )}
-          {!contact.howWeMet && !contact.phone && !contact.email && (
-            <p className="text-muted-foreground">
-              Контактных данных пока нет. Нажмите «Изменить», чтобы добавить.
-            </p>
-          )}
+          {!contact.howWeMet &&
+            !contact.birthDate &&
+            !contact.phone &&
+            !contact.email && (
+              <p className="text-muted-foreground">
+                Контактных данных пока нет. Нажмите «Изменить», чтобы добавить.
+              </p>
+            )}
         </CardContent>
       </Card>
 
