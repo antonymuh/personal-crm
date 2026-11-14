@@ -258,6 +258,26 @@ ssh crm
 cd /opt/crm/staging && ./deploy.sh staging "$(cat .previous-tag)"
 ```
 
+### Логи на сервере
+
+Логи приложения, базы и миграций прода и стенда пишутся в журнал сервера (journald).
+Они переживают выкатку, откат и перезагрузку сервера. Размер журнала ограничивает
+система: не больше 10% диска, самые старые строки удаляются сами.
+
+Читать логи на сервере (`ssh crm`):
+
+```bash
+sudo journalctl -t prod-app-1 --since "1 hour ago"        # приложение прода за последний час
+sudo journalctl -t prod-app-1 -f                          # смотреть вживую, выход — Ctrl+C
+sudo journalctl -t prod-app-1 -p warning --since today    # только ошибки и предупреждения за сегодня
+sudo journalctl -t prod-db-1 -n 50                        # последние 50 строк базы
+sudo journalctl COM_DOCKER_COMPOSE_PROJECT=prod COM_DOCKER_COMPOSE_SERVICE=migrate -n 50   # миграции
+sudo journalctl COM_DOCKER_COMPOSE_PROJECT=prod --since today   # всё окружение сразу
+```
+
+Для стенда — то же самое с `staging`: `staging-app-1`, `staging-db-1`,
+`COM_DOCKER_COMPOSE_PROJECT=staging`.
+
 ### Изменения схемы базы
 
 Поменяли `src/db/schema.ts` — выполните `pnpm db:generate` и закоммитьте новые

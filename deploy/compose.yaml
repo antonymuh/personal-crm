@@ -3,11 +3,16 @@
 # Always run through the deploy scripts: docker compose -p <env> -f compose.yaml,
 # with APP_PORT set by lib.sh (prod 3000, staging 3001).
 
+# Logs go to the server journal (journald): they survive container recreation on deploy and rollback.
+# The journal size is limited by the system (journald defaults), not here.
 x-logging: &logging
-  driver: json-file
+  driver: journald
   options:
-    max-size: "10m"
-    max-file: "3"
+    # SYSLOG_IDENTIFIER = container name: prod-app-1, staging-db-1, ...
+    tag: "{{.Name}}"
+    # Adds COM_DOCKER_COMPOSE_PROJECT and COM_DOCKER_COMPOSE_SERVICE fields to filter by environment
+    # and service (the one-off migrate container gets a new name on every run).
+    labels: com.docker.compose.project,com.docker.compose.service
 
 x-app-image: &app-image ghcr.io/antonymuh/personal-crm:${IMAGE_TAG:?IMAGE_TAG is not set}
 
